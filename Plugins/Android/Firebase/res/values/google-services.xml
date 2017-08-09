@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string name="firebase_database_url" translatable="false">https://techtical-wars.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">767945605340</string>
+  <string name="google_storage_bucket" translatable="false">techtical-wars.appspot.com</string>
+  <string name="project_id" translatable="false">techtical-wars</string>
+  <string name="google_api_key" translatable="false">AIzaSyCCs_JI40Wajeb6qH1CCanfXJoZ7IFTU9c</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCCs_JI40Wajeb6qH1CCanfXJoZ7IFTU9c</string>
+  <string name="google_app_id" translatable="false">1:767945605340:android:6940b7ce5be1aefd</string>
+  <string name="default_web_client_id" translatable="false">767945605340-43dpo9erai6adejoil36ajldfnnj13pv.apps.googleusercontent.com</string>
+</resources>

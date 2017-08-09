@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "767945605340",
+    "firebase_url": "https://techtical-wars.firebaseio.com",
+    "project_id": "techtical-wars",
+    "storage_bucket": "techtical-wars.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767945605340:android:6940b7ce5be1aefd",
+        "android_client_info": {
+          "package_name": "com.techticalwars.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767945605340-43dpo9erai6adejoil36ajldfnnj13pv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCs_JI40Wajeb6qH1CCanfXJoZ7IFTU9c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
