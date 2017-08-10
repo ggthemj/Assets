@@ -73,16 +73,17 @@ public class CardStatsData
 		nameTexts = new List<string[]>();
 		//0
 		nameTexts.Add(new String[]{"Medic","Medic"});
-		nameTexts.Add(new String[]{"Prédateur","Predator"});
-		nameTexts.Add(new String[]{"Assassin","Assassin"});
-		nameTexts.Add(new String[]{"Mitrailleur","Infantry"});
-		nameTexts.Add(new String[]{"Virologue","Virologist"});
-		nameTexts.Add(new String[]{"Berserk","Berserk"});
-		nameTexts.Add(new String[]{"Ninja","Ninja"});
-		nameTexts.Add(new String[]{"Pistolero","Pistolero"});
-		nameTexts.Add(new String[]{"Infirmière","Nurse"});
-		nameTexts.Add(new String[]{"Tank","Tank"});
+		nameTexts.Add(new String[]{"Garruk","Garruk"});
+		nameTexts.Add(new String[]{"Deegan","Deegan"});
+		nameTexts.Add(new String[]{"Loke","Loke"});
+		nameTexts.Add(new String[]{"Rhea","Rhea"});
+		nameTexts.Add(new String[]{"Gunno","Gunno"});
+		nameTexts.Add(new String[]{"Mudo","Mudo"});
+		nameTexts.Add(new String[]{"Bawen","Bawen"});
+		nameTexts.Add(new String[]{"Aessa","Aessa"});
+		nameTexts.Add(new String[]{"Dundge","Dundge"});
 		nameTexts.Add(new String[]{"Pretresse","Priestess"});
-		nameTexts.Add(new String[]{"Gourou","Guru"});
+		nameTexts.Add(new String[]{"Boty","Boty"});
+
 	}
 }

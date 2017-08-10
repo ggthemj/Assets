@@ -8,7 +8,6 @@ public class CollectionZoneController:MonoBehaviour
 {
 	public Sprite[] backgroundCards;
 	public Sprite[] characters;
-	public Sprite[] skills;
 
 	void Start(){
 		this.resize();
@@ -58,7 +57,7 @@ public class CollectionZoneController:MonoBehaviour
 			gameObject.transform.Find("Card"+i).FindChild("CaracBackground").GetComponent<SpriteRenderer>().enabled = true;
 			gameObject.transform.Find("Card"+i).FindChild("Unit").GetComponent<SpriteRenderer>().sprite = this.characters[page*12+i];
 
-			if(AppModel.instance.userData.cards[0].skill0>0){
+			if(AppModel.instance.userData.cards[0].skill1>0){
 				Debug.Log(AppModel.instance.userData.cards[page*12+i].life);
 				gameObject.transform.Find("Card"+i).FindChild("LifeValue").GetComponent<TextMeshPro>().text = AppModel.instance.getLifeCard(page*12+i,AppModel.instance.userData.cards[page*12+i].life).ToString();
 				gameObject.transform.Find("Card"+i).FindChild("LifeValue").GetComponent<MeshRenderer>().enabled = true;
@@ -67,27 +66,27 @@ public class CollectionZoneController:MonoBehaviour
 				gameObject.transform.Find("Card"+i).FindChild("SpeedIcon").GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.Find("Card"+i).FindChild("LifeIcon").GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.Find("Card"+i).FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Card"+i).FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = this.skills[page*12+4*i];
-				if(AppModel.instance.userData.cards[page*12+i].skill1>0){
+				gameObject.transform.Find("Card"+i).FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = AppModel.instance.getSkillSprite(page*12+4*i+1);
+				if(AppModel.instance.userData.cards[page*12+i].skill0>0){
+					gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().sprite = AppModel.instance.getSkillSprite(page*12+4*i);
+				}
+				else{
+					gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = false;
+				}
+				if(AppModel.instance.userData.cards[page*12+i].skill2>0){
 					gameObject.transform.Find("Card"+i).FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Card"+i).FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = this.skills[page*12+4*i+1];
+					gameObject.transform.Find("Card"+i).FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = AppModel.instance.getSkillSprite(page*12+4*i+2);
 				}
 				else{
 					gameObject.transform.Find("Card"+i).FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = false;
 				}
-				if(AppModel.instance.userData.cards[page*12+i].skill2>0){
+				if(AppModel.instance.userData.cards[page*12+i].skill3>0){
 					gameObject.transform.Find("Card"+i).FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Card"+i).FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = this.skills[page*12+4*i+2];
+					gameObject.transform.Find("Card"+i).FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = AppModel.instance.getSkillSprite(page*12+4*i+3);
 				}
 				else{
 					gameObject.transform.Find("Card"+i).FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false;
-				}
-				if(AppModel.instance.userData.cards[page*12+i].skill3>0){
-					gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().sprite = this.skills[page*12+4*i+3];
-				}
-				else{
-					gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = false;
 				}
 				gameObject.transform.Find("Card"+i).FindChild("Niveau").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(5, new List<int>(){AppModel.instance.userData.cards[page*12+i].getLevel()});
 				gameObject.transform.Find("Card"+i).FindChild("GreyBack").GetComponent<SpriteRenderer>().enabled = false;

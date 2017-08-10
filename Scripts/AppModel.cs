@@ -21,6 +21,9 @@ public class AppModel : MonoBehaviour
 	string login ;
 	public int widthScreen;
 	public int heightScreen;
+	SkillData[] skillsData;
+
+	public Sprite[] skillSprites;
 
 	void Awake(){
 		instance = this;
@@ -46,6 +49,13 @@ public class AppModel : MonoBehaviour
 		this.isOnline = true;
 	}
 
+	public void initSkillData(){
+		this.skillsData = new SkillData[48];
+		for(int i = 0 ; i < 48 ; i++){
+			this.skillsData[i] = new SkillData();
+		}
+	}
+
 	public string getWording(int idReference){
 		return WordingBackOffice.getText(idReference, this.languageID);
 	}
@@ -66,6 +76,14 @@ public class AppModel : MonoBehaviour
 		return CardStatsData.getMove(idReference, level);
 	}
 
+	public string getSkillNameText(int id){
+		return skillsData[id].getName(this.languageID);
+	}
+
+	public string getSkillDescription(int skillId, int level){
+		return skillsData[skillId].getDescription(level, this.languageID);
+	}
+
 	public string getErrorWording(int idReference){
 		return WordingBackOffice.getErrorText(idReference, this.languageID);
 	}
@@ -84,6 +102,10 @@ public class AppModel : MonoBehaviour
 
 	public void setSceneController(SceneController sceneC){
 		this.sceneController = sceneC;
+	}
+
+	public Sprite getSkillSprite(int id){
+		return this.skillSprites[id];
 	}
 
 	public void getPlayerData(string login){
@@ -120,4 +142,30 @@ public class AppModel : MonoBehaviour
 	public void testConnection(){
 		//TBC
 	}
+
+	public void hitBigCardSkill(int id){
+		//TBC
+	}
+
+	public void hitYesButton(){
+		//TBC
+	}
+
+	public void hitNoButton(){
+		//TBC
+	}
+
+	public void hitLeftButton(){
+		//TBC
+	}
+
+	public void hitRightButton(){
+		//TBC
+	}
+
+	public void hitCBButton(){
+		//TBC
+	}
+
+
 }
