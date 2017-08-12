@@ -17,12 +17,79 @@ public class CardStatsData
 		return (move[idReference]+idLevel-1);
 	}
 
+	public static string getBonus(int carac, int level, int cardId){
+		if(carac==0){
+			if(level==1){
+				return AppModel.instance.getWording(17, new List<int>(){level});
+			}
+			else{
+				return AppModel.instance.getWording(16, new List<int>(){level});
+			}
+		}
+		else if(carac==1){
+			return AppModel.instance.getWording(19, new List<int>(){level*(life[cardId]/4)});
+		}
+		else{
+			return AppModel.instance.getSkillBonus(carac-2, level);
+		}
+	}
+
 	public static string getUnlockText(int idReference, int languageID){
 		return unlockTexts[idReference][languageID];
 	}
 
 	public static string getNameText(int idReference, int languageID){
 		return nameTexts[idReference][languageID];
+	}
+
+	public static int getNumberOfCards(){
+		return nameTexts.Count;
+	}
+
+	public static int getPrice(int carac, int levelMax, int startingLevel){
+		int price = 0 ; 
+		for(int i = startingLevel+1 ; i <= levelMax ; i++){
+			if(carac==0){
+				if(i==2){
+					price+=1000;
+				}
+				else if(i==3){
+					price+=3000;
+				}
+			}
+			else if(carac==1){
+				if(i==2){
+					price+=300;
+				}
+				else if(i==3){
+					price+=700;
+				}
+				else if(i==4){
+					price+=1200;
+				}
+				else if(i==5){
+					price+=1800;
+				}
+			}
+			else if(carac>1){
+				if(i==1){
+					price+=1000;
+				}
+				else if(i==2){
+					price+=300;
+				}
+				else if(i==3){
+					price+=700;
+				}
+				else if(i==4){
+					price+=1200;
+				}
+				else if(i==5){
+					price+=1800;
+				}
+			}
+		}
+		return price;
 	}
 
 	static CardStatsData ()
@@ -82,8 +149,7 @@ public class CardStatsData
 		nameTexts.Add(new String[]{"Bawen","Bawen"});
 		nameTexts.Add(new String[]{"Aessa","Aessa"});
 		nameTexts.Add(new String[]{"Dundge","Dundge"});
-		nameTexts.Add(new String[]{"Pretresse","Priestess"});
+		nameTexts.Add(new String[]{"Darla","Darla"});
 		nameTexts.Add(new String[]{"Boty","Boty"});
-
 	}
 }

@@ -23,6 +23,14 @@ public class WordingBackOffice
 		return text;
 	}
 
+	public static string getText(int idReference, List<string> args, int languageID){
+		string text = texts[idReference][languageID];
+		for(int i = 0;i<args.Count;i++){
+			text = text.Replace("ARG"+(i+1),args[i]);
+		}
+		return text;
+	}
+
 	static WordingBackOffice ()
 	{
 		texts = new List<string[]>();
@@ -43,6 +51,25 @@ public class WordingBackOffice
 		texts.Add(new String[]{"cases/tour","tiles/turn"});
 		texts.Add(new String[]{"case/tour","tile/turn"});
 		texts.Add(new String[]{"PV","HP"});
+		texts.Add(new String[]{"Ajoute ARG1 points de déplacement","Adds ARG1 move points"});
+		texts.Add(new String[]{"Ajoute ARG1 point de déplacement","Adds ARG1 move point"});
+		texts.Add(new String[]{"Votre vitesse a déjà été augmentée au maximum!","Your speed has already reached its maximum level!"});
+		texts.Add(new String[]{"Ajoute ARG1 points de vie","Adds ARG1 health points"});
+		texts.Add(new String[]{"Vos points de vie ont été augmentés au maximum","Your health has already reached its maximum level!"});
+		texts.Add(new String[]{"Cette compétence a déjà atteint son niveau maximum","this skill has already reached its maximum level!"});
+		texts.Add(new String[]{"Acheter","Buy"});
+		texts.Add(new String[]{"Cliquez ici pour débloquer cette compétence active","Click here to unlock this active skill"});
+		texts.Add(new String[]{"Cliquez ici pour débloquer cette compétence passive","Click here to unlock this passive skill"});
+		texts.Add(new String[]{"Verrouillée","Locked"});
+		texts.Add(new String[]{"Mes unités","My units"});
+		texts.Add(new String[]{"Clique sur une unité pour voir ou améliorer ses compétences","Click on a character to access to its skills and improve them"});
+		texts.Add(new String[]{"Retour","Back"});
+		texts.Add(new String[]{"Collection","Collection"});
+		texts.Add(new String[]{"Achat effectué","Purchase made"});
+		texts.Add(new String[]{"La compétence ARG2 de l'unité ARG1 a été augmentée au niveau ARG3","ARG1's ARG2 skill has been improved to level ARG3"});
+		texts.Add(new String[]{"OK!","OK !"});
+		texts.Add(new String[]{"L'unité ARG1 possède désormais ARG2 points de vie","ARG1 unit has now ARG2 health points"});
+		texts.Add(new String[]{"L'unité ARG1 peut désormais se déplacer de ARG2 cases par tour","ARG1 unit can now move up to ARG2 tiles per turn"});
 
 		errors = new List<string[]>();
 		//0

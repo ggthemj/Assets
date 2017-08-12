@@ -1,8 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-public class ConnectionButtonController : ButtonController
+public class BuySkillButtonController : ButtonController
 {
+	public int id;
+
 	void Start(){
 		this.setSprite();
 	}
@@ -16,18 +18,10 @@ public class ConnectionButtonController : ButtonController
 	}
 
 	public override void OnMouseDown(){
-		if(!AppModel.instance.isOnline){
-			AppModel.instance.testConnection();
-		}
+		AppModel.instance.buySkill(this.id);
 	}
 
 	public void setSprite(){
-		if (AppModel.instance.isOnline){
-			gameObject.GetComponent<SpriteRenderer>().sprite = base.normalSprite;
-		}
-		else{
-			gameObject.GetComponent<SpriteRenderer>().sprite = base.hoveredSprite;
-		}
+		gameObject.GetComponent<SpriteRenderer>().sprite = base.normalSprite;
 	}
-
 }

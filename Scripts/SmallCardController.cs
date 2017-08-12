@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
 using TMPro;
-public class ZoneCardController:MonoBehaviour
+
+public class SmallCardController:MonoBehaviour
 {
-	public int idCard;
+	public int id;
 
 	void Awake(){
 
@@ -34,6 +35,6 @@ public class ZoneCardController:MonoBehaviour
 	}
 
 	void OnMouseDown(){
-		HomeManager.instance.hitCard(this.idCard);
+		AppModel.instance.clickSmallCard(this.id);
 	}
 }

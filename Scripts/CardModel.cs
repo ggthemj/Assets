@@ -21,4 +21,46 @@ public class CardModel
 	public int getLevel(){
 		return this.life+this.move+this.skill0+this.skill1+this.skill2+this.skill3-2;
 	}
+
+	public int getCarac(int i){
+		if(i==0){
+			return life;
+		}
+		else if(i==1){
+			return move;
+		}
+		else if(i==2){
+			return skill0;
+		}
+		else if(i==3){
+			return skill1;
+		}
+		else if(i==4){
+			return skill2;
+		}
+		else{
+			return skill3;
+		}
+	}
+
+	public void setCarac(int i, int j){
+		if(i==0){
+			life=j;
+		}
+		else if(i==1){
+			move=j;
+		}
+		else if(i==2){
+			skill0=j;
+		}
+		else if(i==3){
+			skill1=j;
+		}
+		else if(i==4){
+			skill2=j;
+		}
+		else{
+			skill3=j;
+		}
+	}
 }

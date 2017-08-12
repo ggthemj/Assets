@@ -14,6 +14,11 @@ public class CollectionZoneController:MonoBehaviour
 		this.updateCards(0);
 	}
 
+	public void initTexts(){
+		gameObject.transform.Find("TitleZone").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(26);
+		gameObject.transform.Find("Comment").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(27);
+	}
+
 	public void showColliders(bool b){
 		if(AppModel.instance.widthScreen>AppModel.instance.heightScreen){
 	 		this.showDesktopColliders(b);
@@ -57,8 +62,7 @@ public class CollectionZoneController:MonoBehaviour
 			gameObject.transform.Find("Card"+i).FindChild("CaracBackground").GetComponent<SpriteRenderer>().enabled = true;
 			gameObject.transform.Find("Card"+i).FindChild("Unit").GetComponent<SpriteRenderer>().sprite = this.characters[page*12+i];
 
-			if(AppModel.instance.userData.cards[0].skill1>0){
-				Debug.Log(AppModel.instance.userData.cards[page*12+i].life);
+			if(AppModel.instance.userData.cards[page*12+i].skill1>0){
 				gameObject.transform.Find("Card"+i).FindChild("LifeValue").GetComponent<TextMeshPro>().text = AppModel.instance.getLifeCard(page*12+i,AppModel.instance.userData.cards[page*12+i].life).ToString();
 				gameObject.transform.Find("Card"+i).FindChild("LifeValue").GetComponent<MeshRenderer>().enabled = true;
 				gameObject.transform.Find("Card"+i).FindChild("SpeedValue").GetComponent<TextMeshPro>().text = AppModel.instance.getMoveCard(page*12+i,AppModel.instance.userData.cards[page*12+i].move).ToString();
