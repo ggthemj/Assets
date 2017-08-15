@@ -4,7 +4,7 @@ using UnityEngine;
 public class ConnectionButtonController : ButtonController
 {
 	void Start(){
-		this.setSprite();
+		this.updateSprite();
 	}
 
 	public override void OnMouseOver(){
@@ -12,21 +12,26 @@ public class ConnectionButtonController : ButtonController
 	}
 
 	public override void OnMouseExit(){
-		gameObject.GetComponent<SpriteRenderer>().color = new Color(255f/255f, 255f/255f, 255f/255f, 1f);
+		if (AppModel.instance.isOnline){
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(255f/255f, 255f/255f, 255f/255f, 1f);
+		}
+		else{
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f/255f, 66f/255f, 1f);
+		}
 	}
 
 	public override void OnMouseDown(){
-		if(!AppModel.instance.isOnline){
-			AppModel.instance.testConnection();
-		}
+		AppModel.instance.testConnection();
 	}
 
-	public void setSprite(){
+	public void updateSprite(){
 		if (AppModel.instance.isOnline){
 			gameObject.GetComponent<SpriteRenderer>().sprite = base.normalSprite;
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(255f/255f, 255f/255f, 255f/255f, 1f);
 		}
 		else{
 			gameObject.GetComponent<SpriteRenderer>().sprite = base.hoveredSprite;
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f/255f, 66f/255f, 1f);
 		}
 	}
 

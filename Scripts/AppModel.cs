@@ -28,6 +28,7 @@ public class AppModel : MonoBehaviour
 	SkillData[] skillsData;
 	public int status;
 	public int popUpStatus;
+	public int popUpStatusNo;
 
 	public Sprite[] skillSprites;
 	public Sprite[] bigCharacterSprites;
@@ -37,6 +38,7 @@ public class AppModel : MonoBehaviour
 		this.isOnline = true;
 		this.status = 0;
 		this.popUpStatus = 0;
+		this.popUpStatusNo = 0;
 		this.loadingScreen = GameObject.Find("LoadingScreen").GetComponent<LoadingScreen>();
 		this.bigCard = GameObject.Find("CardModification").GetComponent<BigCardController>();
 		this.bigCard.initTexts();
@@ -154,7 +156,7 @@ public class AppModel : MonoBehaviour
 				this.sceneController.resume(task.Exception.ToString());
 	        }
 	        else if (task.IsCompleted) {
-	        	DataSnapshot snapshot = task.Result;
+				DataSnapshot snapshot = task.Result;
 				if(snapshot.HasChild("credits")){
 					this.fillUserDataWithJson(snapshot);
 					this.sceneController.resume("");
@@ -168,14 +170,24 @@ public class AppModel : MonoBehaviour
 
 	public void fillUserDataWithJson(DataSnapshot snapshot){
 		this.userData = JsonUtility.FromJson<UserDataModel>(snapshot.GetRawJsonValue());
-		this.userData.cards = new List<CardModel>();
-		for (int i = 0 ; i < 12 ; i++){
-			this.userData.cards.Add(JsonUtility.FromJson<CardModel>(snapshot.Child("card"+i).GetRawJsonValue()));
-		}
+		this.userData.fillCards();
 	}
 
 	public void testConnection(){
-		//TBC
+		if(this.isOnline){
+			HomeManager.instance.showColliders(false);
+			this.popUpStatus = 3;
+			this.popUpStatusNo = 2;
+			this.popUp.launch(true, AppModel.instance.getWording(49), AppModel.instance.getWording(51), AppModel.instance.getWording(32), AppModel.instance.getWording(52));
+			this.popUp.show(true);
+		}
+		else{
+			HomeManager.instance.showColliders(false);
+			this.popUpStatus = 4;
+			this.popUpStatusNo = 3;
+			this.popUp.launch(true, AppModel.instance.getWording(48), AppModel.instance.getWording(50), AppModel.instance.getWording(53), AppModel.instance.getWording(54));
+			this.popUp.show(true);
+		}
 	}
 
 	public void hitBigCardSkill(int id){
@@ -188,10 +200,107 @@ public class AppModel : MonoBehaviour
 	}
 
 	public void hitYesButton(){
-		//TBC
+		if(this.popUpStatus==1){
+			HomeManager.instance.updateAll();
+			this.bigCard.updateValues();
+			this.training.updateInfos();
+			this.training.show(true);
+			this.popUp.show(false);
+		}
+		else if(this.popUpStatus==2){
+			this.training.showColliders(true);
+			this.popUp.show(false);
+		}
+		else if(this.popUpStatus==3){
+			PlayerPrefs.SetInt("toSync",1);
+			this.isOnline = false;
+			HomeManager.instance.getHeader().switchConnectionButton();
+			this.popUp.show(false);
+			HomeManager.instance.showColliders(true);
+		}
+		else if(this.popUpStatus==4){
+			this.loadingScreen.showLoading();
+			this.popUp.show(false);
+			this.SyncFromLocal();
+		}
+		else if(this.popUpStatus==5){
+			HomeManager.instance.showColliders(true);
+			this.popUp.show(false);
+		}
+	}
+
+	public void SyncFromLocal(){
+		AppModel.instance.userData.reverseFillCards();
+		string json = JsonUtility.ToJson(AppModel.instance.userData);
+		FirebaseDatabase.DefaultInstance.GetReference("users").Child(AppModel.instance.userData.name).SetRawJsonValueAsync(json).ContinueWith(task => {
+			if(task.IsFaulted){
+				Debug.Log("Erreur "+task.Exception.ToString());
+				this.popUpStatus=5;
+				this.popUp.launch(false, AppModel.instance.getWording(55), AppModel.instance.getWording(56), AppModel.instance.getWording(32), "");
+				this.popUp.show(true);
+				this.loadingScreen.hideLoading();
+			}
+			else if(task.IsCompleted){
+				PlayerPrefs.SetInt("toSync",0);
+				this.isOnline = true;
+				HomeManager.instance.showColliders(true);
+				HomeManager.instance.getHeader().switchConnectionButton();
+				this.loadingScreen.hideLoading();
+			}
+		});
 	}
 
 	public void hitNoButton(){
+		if(this.popUpStatusNo==1){
+			//TBC
+		}
+		else if(this.popUpStatusNo==2){
+			this.popUp.show(false);
+			HomeManager.instance.showColliders(true);	
+		}
+		else if(this.popUpStatusNo==3){
+			this.loadingScreen.showLoading();
+			this.popUp.show(false);
+			this.SyncFromOnline();	
+		}
+	}
+
+	public void SyncFromOnline(){
+		FirebaseDatabase.DefaultInstance.GetReference("users").Child(AppModel.instance.userData.name).GetValueAsync().ContinueWith(task => {
+			if (task.IsFaulted) {
+	        	Debug.Log("ERREUR "+task.Exception.ToString());
+				this.popUpStatus=5;
+				this.popUp.launch(false, AppModel.instance.getWording(55), AppModel.instance.getWording(56), AppModel.instance.getWording(32), "");
+				this.popUp.show(true);
+				this.loadingScreen.hideLoading();
+	        }
+	        else if (task.IsCompleted) {
+				DataSnapshot snapshot = task.Result;
+				this.fillUserDataWithJson(snapshot);
+				PlayerPrefs.SetInt("toSync",0);
+				this.isOnline = true;
+				HomeManager.instance.updateAll();
+				HomeManager.instance.showColliders(true);
+				HomeManager.instance.getHeader().switchConnectionButton();
+
+				this.loadingScreen.hideLoading();
+	        }
+	  	});
+	}
+
+	public void hitNotEnoughMoney(){
+		this.popUpStatus = 2;
+		this.popUpStatusNo = 1;
+		this.training.showColliders(false);
+		this.popUp.launch(true, AppModel.instance.getWording(43), AppModel.instance.getWording(44), AppModel.instance.getWording(32), AppModel.instance.getWording(45));
+		this.popUp.show(true);
+	}
+
+	public void hitCagnotte(){
+		//TBC
+	}
+
+	public void hitMagasin(){
 		//TBC
 	}
 
@@ -268,30 +377,81 @@ public class AppModel : MonoBehaviour
 	public void buySkill(int id){
 		this.training.showColliders(false);
 		this.loadingScreen.showLoading();
+		int ancienLevel = AppModel.instance.userData.cards[this.training.idCard].getCarac(this.training.indexCarac);
 		int newLevel = AppModel.instance.userData.cards[this.training.idCard].getCarac(this.training.indexCarac)+Mathf.Max(1,id);
+		AppModel.instance.userData.cards[this.training.idCard].setCarac(this.training.indexCarac, newLevel);
+		PlayerPrefs.SetInt("card"+this.training.idCard+"_"+this.training.indexCarac, newLevel);
+						
+		if(this.isOnline){
+			FirebaseDatabase.DefaultInstance.GetReference("users").Child(AppModel.instance.userData.name).Child("card"+this.training.idCard+"_"+this.training.indexCarac).SetValueAsync(newLevel).ContinueWith(task => {
+				if(task.IsFaulted){
+					Debug.Log("Erreur "+task.Exception.ToString());
+					PlayerPrefs.SetInt("toSync",1);
+					this.isOnline = false;
+					HomeManager.instance.getHeader().switchConnectionButton();
+					this.removeCristals(AppModel.instance.getPrice(this.training.indexCarac,newLevel,ancienLevel),true, newLevel);
+				}
+				else if(task.IsCompleted){
+					this.removeCristals(AppModel.instance.getPrice(this.training.indexCarac,newLevel,ancienLevel),false, newLevel);
+				}
+			});
+		}
+		else{
+			this.removeCristals(AppModel.instance.getPrice(this.training.indexCarac,newLevel,ancienLevel),false, newLevel);
+		}
+	}
 
-		FirebaseDatabase.DefaultInstance.GetReference("users").Child(AppModel.instance.userData.name).Child("card"+this.training.idCard).SetValueAsync(newLevel).ContinueWith(task => {
-			if(task.IsFaulted){
-				Debug.Log("Erreur "+task.Exception.ToString());
-				this.launchError();
+	public void removeCristals(int nb, bool error, int newLevel){
+		AppModel.instance.userData.credits-=nb;
+		PlayerPrefs.SetInt("credits", AppModel.instance.userData.credits);
+		HomeManager.instance.updateAll();
+		this.bigCard.updateValues();
+		this.training.updateInfos();
+
+		if(error){
+			this.loadingScreen.hideLoading();
+			this.popUp.launch(false, AppModel.instance.getWording(46), AppModel.instance.getWording(47), AppModel.instance.getWording(32), "");
+			this.popUp.show(true);
+		}
+		else if(this.isOnline){
+			FirebaseDatabase.DefaultInstance.GetReference("users").Child(AppModel.instance.userData.name).Child("credits").SetValueAsync(AppModel.instance.userData.credits).ContinueWith(task => {
+				if(task.IsFaulted){
+					Debug.Log("Erreur "+task.Exception.ToString());
+					PlayerPrefs.SetInt("toSync",1);
+					this.isOnline = false;
+					HomeManager.instance.getHeader().switchConnectionButton();
+					this.loadingScreen.hideLoading();
+					this.popUp.launch(false, AppModel.instance.getWording(46), AppModel.instance.getWording(47), AppModel.instance.getWording(32), "");
+					this.popUp.show(true);
+				}
+				else if(task.IsCompleted){
+					this.popUpStatus = 1;
+					if(this.training.indexCarac>1){
+						this.launchConfirmation(false, AppModel.instance.getWording(30), AppModel.instance.getWording(31, new List<string>(){CardStatsData.getNameText(this.training.idCard, this.languageID), AppModel.instance.getSkillNameText(4*this.training.idCard+this.training.indexCarac-2), ""+newLevel}), AppModel.instance.getWording(32) , "");
+					}
+					else if(this.training.indexCarac==1){
+						this.launchConfirmation(false, AppModel.instance.getWording(30), AppModel.instance.getWording(33, new List<string>(){CardStatsData.getNameText(this.training.idCard, this.languageID), ""+AppModel.instance.getLifeCard(this.training.idCard, AppModel.instance.userData.cards[this.training.idCard].life)}), AppModel.instance.getWording(32), "");
+					}
+					else{
+						this.launchConfirmation(false, AppModel.instance.getWording(30), AppModel.instance.getWording(34, new List<string>(){CardStatsData.getNameText(this.training.idCard, this.languageID), ""+AppModel.instance.getMoveCard(this.training.idCard, AppModel.instance.userData.cards[this.training.idCard].move)}), AppModel.instance.getWording(32), "");
+					}	
+					this.loadingScreen.hideLoading();
+				}
+			});
+		}
+		else{
+			this.loadingScreen.hideLoading();
+			this.popUpStatus = 1;
+			if(this.training.indexCarac>1){
+				this.launchConfirmation(false, AppModel.instance.getWording(30), AppModel.instance.getWording(31, new List<string>(){CardStatsData.getNameText(this.training.idCard, this.languageID), AppModel.instance.getSkillNameText(4*this.training.idCard+this.training.indexCarac-2), ""+newLevel}), AppModel.instance.getWording(32) , "");
 			}
-			else if(task.IsCompleted){
-				AppModel.instance.userData.cards[this.training.idCard].setCarac(this.training.indexCarac, newLevel);
-				this.training.updateInfos();
-				PlayerPrefs.SetInt("card"+this.training.idCard+"_"+this.training.indexCarac, newLevel);
-				this.loadingScreen.hideLoading();
-				this.popUpStatus = 1;
-				if(this.training.indexCarac>1){
-					this.launchConfirmation(false, AppModel.instance.getWording(38), AppModel.instance.getWording(39, new List<string>(){CardStatsData.getNameText(this.training.idCard, this.languageID), AppModel.instance.getSkillNameText(4*this.training.idCard+this.training.indexCarac-2), ""+newLevel}), AppModel.instance.getWording(40) , "");
-				}
-				else if(this.training.indexCarac==1){
-					this.launchConfirmation(false, AppModel.instance.getWording(38), AppModel.instance.getWording(41, new List<string>(){CardStatsData.getNameText(this.training.idCard, this.languageID), ""+AppModel.instance.getLifeCard(this.training.idCard, AppModel.instance.userData.cards[this.training.idCard].life)}), AppModel.instance.getWording(40), "");
-				}
-				else{
-					this.launchConfirmation(false, AppModel.instance.getWording(38), AppModel.instance.getWording(42, new List<string>(){CardStatsData.getNameText(this.training.idCard, this.languageID), ""+AppModel.instance.getMoveCard(this.training.idCard, AppModel.instance.userData.cards[this.training.idCard].move)}), AppModel.instance.getWording(40), "");
-				}
+			else if(this.training.indexCarac==1){
+				this.launchConfirmation(false, AppModel.instance.getWording(30), AppModel.instance.getWording(33, new List<string>(){CardStatsData.getNameText(this.training.idCard, this.languageID), ""+AppModel.instance.getLifeCard(this.training.idCard, AppModel.instance.userData.cards[this.training.idCard].life)}), AppModel.instance.getWording(32), "");
 			}
-		});
+			else{
+				this.launchConfirmation(false, AppModel.instance.getWording(30), AppModel.instance.getWording(34, new List<string>(){CardStatsData.getNameText(this.training.idCard, this.languageID), ""+AppModel.instance.getMoveCard(this.training.idCard, AppModel.instance.userData.cards[this.training.idCard].move)}), AppModel.instance.getWording(32), "");
+			}		
+		}
 	}
 
 	public void launchConfirmation(bool b, string title, string description, string buttonYes, string buttonNo){
@@ -315,6 +475,4 @@ public class AppModel : MonoBehaviour
 		this.bigCard.showColliders(true);
 		this.bigCard.show(true);
 	}
-
-
 }

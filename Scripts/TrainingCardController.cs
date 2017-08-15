@@ -76,11 +76,14 @@ public class TrainingCardController:MonoBehaviour
 		gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton4").GetComponent<BuySkillButtonController>().show(b & toShow4);
 		gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton0").GetComponent<BuySkillButtonController>().show(b & toShowBuyButton0);
 		gameObject.transform.Find("ChoiceValidation").FindChild("Cristal0").GetComponent<SpriteRenderer>().enabled = (b & toShowBuyButton0);
+		gameObject.transform.Find("ChoiceValidation").FindChild("Cagnotte").GetComponent<CagnotteButtonController>().show(b);
+		gameObject.transform.Find("ChoiceValidation").FindChild("CristalCagnotte").GetComponent<SpriteRenderer>().enabled = b;
 	}
 
 	public void updateInfos(){
 		this.toShowText0 = false;
 		this.toShowSkill0 = true;
+		gameObject.transform.Find("ChoiceValidation").FindChild("Cagnotte").GetComponent<CagnotteButtonController>().setText(AppModel.instance.getWording(42)+AppModel.instance.userData.credits);
 		gameObject.transform.Find("ChoiceValidation").FindChild("Character").GetComponent<SpriteRenderer>().sprite = this.characters[this.idCard];
 		gameObject.transform.Find("ChoiceValidation").FindChild("TexteChoix").GetComponent<TextMeshPro>().text = AppModel.instance.getCardNameText(this.idCard)+", "+AppModel.instance.getWording(6)+" "+AppModel.instance.userData.cards[this.idCard].getLevel();
 		gameObject.transform.Find("ChoiceValidation").FindChild("TexteConseil").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(7);
@@ -107,7 +110,9 @@ public class TrainingCardController:MonoBehaviour
 		}
 		else if(this.indexCarac>2){
 			gameObject.transform.Find("ChoiceValidation").FindChild("ChosenCarac").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(11)+" N°"+(this.indexCarac-2);
-			gameObject.transform.Find("ChoiceValidation").FindChild("Skill0").GetComponent<SkillCardController>().updateInfos(AppModel.instance.getSkillNameText(4*idCard+(this.indexCarac-2)),AppModel.instance.getSkillSprite(this.indexCarac-2), AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac),AppModel.instance.getSkillDescription(4*this.idCard+(this.indexCarac-2), AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac)));
+			if(AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac)>0){
+				gameObject.transform.Find("ChoiceValidation").FindChild("Skill0").GetComponent<SkillCardController>().updateInfos(AppModel.instance.getSkillNameText(4*idCard+(this.indexCarac-2)),AppModel.instance.getSkillSprite(this.indexCarac-2), AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac),AppModel.instance.getSkillDescription(4*this.idCard+(this.indexCarac-2), AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac)));
+			}
 		}
 
 		this.toShow4 = false;
@@ -118,12 +123,7 @@ public class TrainingCardController:MonoBehaviour
 		if(this.indexCarac>0){
 			if(AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac)==5){
 				this.toShowText0Bis = true;
-				if(this.indexCarac==1){
-					gameObject.transform.Find("ChoiceValidation").FindChild("Texte0Bis").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(20);
-				}
-				else{
-					gameObject.transform.Find("ChoiceValidation").FindChild("Texte0Bis").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(21);
-				}
+				gameObject.transform.Find("ChoiceValidation").FindChild("Texte0Bis").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(21);
 			}
 			else if(AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac)==4){
 				this.toShow1 = true;
@@ -131,6 +131,7 @@ public class TrainingCardController:MonoBehaviour
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyText1").GetComponent<TextMeshPro>().text = AppModel.instance.getBonus(this.idCard, this.indexCarac, 1);
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyLevel1").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(6)+" 5";
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton1").GetComponent<BuySkillButtonController>().setText(AppModel.instance.getWording(22)+"\n"+AppModel.instance.getPrice(this.indexCarac, 5, 4));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton1").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 5, 4));
 			}
 			else if(AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac)==3){
 				this.toShow1 = true;
@@ -142,6 +143,8 @@ public class TrainingCardController:MonoBehaviour
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyText2").GetComponent<TextMeshPro>().text = AppModel.instance.getBonus(this.idCard, this.indexCarac, 2);
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyLevel2").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(6)+" 5";
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton2").GetComponent<BuySkillButtonController>().setText(AppModel.instance.getWording(22)+"\n"+AppModel.instance.getPrice(this.indexCarac, 5, 3));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton1").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 4, 3));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton2").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 5, 3));
 			}
 			else if(AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac)==2){
 				this.toShow1 = true;
@@ -157,6 +160,9 @@ public class TrainingCardController:MonoBehaviour
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyText3").GetComponent<TextMeshPro>().text = AppModel.instance.getBonus(this.idCard, this.indexCarac, 3);
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyLevel3").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(6)+" 5";
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton3").GetComponent<BuySkillButtonController>().setText(AppModel.instance.getWording(22)+"\n"+AppModel.instance.getPrice(this.indexCarac, 5, 2));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton1").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 3, 2));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton2").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 4, 2));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton3").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 5, 2));
 			}
 			else if(AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac)==1){
 				this.toShow1 = true;
@@ -176,11 +182,18 @@ public class TrainingCardController:MonoBehaviour
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyText4").GetComponent<TextMeshPro>().text = AppModel.instance.getBonus(this.idCard, this.indexCarac, 4);
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyLevel4").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(6)+" 5";
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton4").GetComponent<BuySkillButtonController>().setText(AppModel.instance.getWording(22)+"\n"+AppModel.instance.getPrice(this.indexCarac, 5, 1));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton1").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 2, 1));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton2").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 3, 1));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton3").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 4, 1));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton4").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 5, 1));
 			}
 			else if(AppModel.instance.userData.cards[this.idCard].getCarac(this.indexCarac)==0){
+				this.toShowSkill0 = false;
 				this.toShowBuyButton0 = true;
 				this.toShowText0 = true;
-				gameObject.transform.Find("ChoiceValidation").FindChild("Texte0").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(22)+"\n"+AppModel.instance.getPrice(this.indexCarac, 1, 0);
+				gameObject.transform.Find("ChoiceValidation").FindChild("Texte0").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(41);
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton0").GetComponent<BuySkillButtonController>().setText(AppModel.instance.getWording(22)+"\n"+AppModel.instance.getPrice(this.indexCarac, 1, 0));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton0").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 1, 0));
 			}
 		}
 		else{
@@ -194,6 +207,7 @@ public class TrainingCardController:MonoBehaviour
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyText1").GetComponent<TextMeshPro>().text = AppModel.instance.getBonus(this.idCard, this.indexCarac, 1);
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyLevel1").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(6)+" 3";
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton1").GetComponent<BuySkillButtonController>().setText(AppModel.instance.getWording(22)+"\n"+AppModel.instance.getPrice(this.indexCarac, 3, 2));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton1").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 3, 2));
 			}
 			else if(AppModel.instance.userData.cards[this.idCard].move==1){
 				this.toShow1 = true;
@@ -205,6 +219,8 @@ public class TrainingCardController:MonoBehaviour
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyLevel2").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(6)+" 3";
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton1").GetComponent<BuySkillButtonController>().setText(AppModel.instance.getWording(22)+"\n"+AppModel.instance.getPrice(this.indexCarac, 2, 1));
 				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton2").GetComponent<BuySkillButtonController>().setText(AppModel.instance.getWording(22)+"\n"+AppModel.instance.getPrice(this.indexCarac, 3, 1));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton1").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 2, 1));
+				gameObject.transform.Find("ChoiceValidation").FindChild("BuyButton2").GetComponent<BuySkillButtonController>().setRed(AppModel.instance.userData.credits<AppModel.instance.getPrice(this.indexCarac, 3, 1));
 			}
 		}
 	}

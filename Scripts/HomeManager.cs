@@ -76,4 +76,17 @@ public class HomeManager : SceneController {
 		this.collectionZone.GetComponent<CollectionZoneController>().resize();
 		this.header.GetComponent<HomeHeaderController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
 	}
+
+	public HomeHeaderController getHeader(){
+		return this.header.GetComponent<HomeHeaderController>();
+	}
+
+	public CollectionZoneController getCollection(){
+		return this.collectionZone.GetComponent<CollectionZoneController>();
+	}
+
+	public void updateAll(){
+		this.getHeader().updateHeader();
+		this.getCollection().updateCards(this.page);
+	}
 }

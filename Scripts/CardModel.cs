@@ -9,7 +9,7 @@ public class CardModel
 	public int skill2;
 	public int skill3;
 
-	public CardModel (int l, int m, int s0, int s1, int s2, int s3){
+	public CardModel (int m, int l, int s0, int s1, int s2, int s3){
 		this.life = l;
 		this.move = m;
 		this.skill0 = s0;
@@ -24,10 +24,10 @@ public class CardModel
 
 	public int getCarac(int i){
 		if(i==0){
-			return life;
+			return move;
 		}
 		else if(i==1){
-			return move;
+			return life;
 		}
 		else if(i==2){
 			return skill0;
@@ -45,10 +45,10 @@ public class CardModel
 
 	public void setCarac(int i, int j){
 		if(i==0){
-			life=j;
+			move=j;
 		}
 		else if(i==1){
-			move=j;
+			life=j;
 		}
 		else if(i==2){
 			skill0=j;

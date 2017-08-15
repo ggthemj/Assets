@@ -48,4 +48,8 @@ public class HomeHeaderController:MonoBehaviour
 			gameObject.transform.Find("RightHeaderDesktop").position = new Vector3((+1*((10f*w/h)/2f-(0.75f*762f/216f)-0.1f)),4.35f,0f);
 		}
 	}
+
+	public void switchConnectionButton(){
+		gameObject.transform.Find("RightHeaderDesktop").FindChild("ConnectionButton").GetComponent<ConnectionButtonController>().updateSprite();
+	}
 }

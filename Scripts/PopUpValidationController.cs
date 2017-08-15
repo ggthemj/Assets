@@ -26,7 +26,7 @@ public class PopUpValidationController:MonoBehaviour
 		gameObject.transform.Find("ChoiceValidation").FindChild("TitleChoice").GetComponent<MeshRenderer>().enabled = b;
 		gameObject.transform.Find("ChoiceValidation").FindChild("TexteChoix").GetComponent<MeshRenderer>().enabled = b;
 		if(this.twoChoices){
-			gameObject.transform.Find("ChoiceValidation").FindChild("ButtonYes").position = new Vector3(-1.4f, -2.5f, 0f);
+			gameObject.transform.Find("ChoiceValidation").FindChild("ButtonYes").localPosition = new Vector3(-1.2f, -2.5f, 0f);
 			gameObject.transform.Find("ChoiceValidation").FindChild("ButtonNo").GetComponent<NoButtonController>().show(b);
 		}
 		else{

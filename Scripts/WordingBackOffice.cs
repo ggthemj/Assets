@@ -23,14 +23,6 @@ public class WordingBackOffice
 		return text;
 	}
 
-	public static string getText(int idReference, List<string> args, int languageID){
-		string text = texts[idReference][languageID];
-		for(int i = 0;i<args.Count;i++){
-			text = text.Replace("ARG"+(i+1),args[i]);
-		}
-		return text;
-	}
-
 	static WordingBackOffice ()
 	{
 		texts = new List<string[]>();
@@ -70,10 +62,41 @@ public class WordingBackOffice
 		texts.Add(new String[]{"OK!","OK !"});
 		texts.Add(new String[]{"L'unité ARG1 possède désormais ARG2 points de vie","ARG1 unit has now ARG2 health points"});
 		texts.Add(new String[]{"L'unité ARG1 peut désormais se déplacer de ARG2 cases par tour","ARG1 unit can now move up to ARG2 tiles per turn"});
+		texts.Add(new String[]{"move","move"});
+		texts.Add(new String[]{"life","life"});
+		texts.Add(new String[]{"skill0","skill0"});
+		texts.Add(new String[]{"skill1","skill1"});
+		texts.Add(new String[]{"skill2","skill2"});
+		texts.Add(new String[]{"skill3","skill3"});
+		texts.Add(new String[]{"Compétence verrouillée. Achetez la pour la débloquer!","This skill is locked. Buy it to discover its u"});
+		texts.Add(new String[]{"Ma cagnotte : ","My money : "});
+		texts.Add(new String[]{"Achat impossible","Missing cristals"});
+		texts.Add(new String[]{"Vous n'avez pas assez de cristaux pour compléter cette transaction","You do not have enough cristals to buy this"});
+		texts.Add(new String[]{"Boutique","Store"});
+		texts.Add(new String[]{"Pas de connexion","No internet"});
+		texts.Add(new String[]{"Nous n'avons pas pu contacter le serveur, vous êtes désormais en mode hors-ligne. Veuillez cliquer sur l'icone de connexion sur la page d'accueil pour vous reconnecter","We were not able to connect to distant server, you are now offline. Please reconnect by clicking on the wifi button on Home Page"});
+		texts.Add(new String[]{"Mode connecté","Online mode"});
+		texts.Add(new String[]{"Mode déconnecté","Offline mode"});
+		texts.Add(new String[]{"Souhaitez-vous conserver vos données locales ou les remplacer par les données stockées en ligne?","Would you rather use this device's data or your online data ?"});
+		texts.Add(new String[]{"En passant en mode déconnecté vous pourrez continuer à consulter vos cartes et à disputer des matchs amicaux, mais les matchs en ligne rapportent plus!","You will still be able to manage your collection and fight with your units in offline mode but you will earn less cristals than in online mode"});
+		texts.Add(new String[]{"Annuler","Cancel"});
+		texts.Add(new String[]{"Données locales","Use local data"});
+		texts.Add(new String[]{"Données en ligne","Use online data"});
+		texts.Add(new String[]{"Echec","Sync failed"});
+		texts.Add(new String[]{"Nous n'avons pas pu synchroniser vos données, veuillez vérifier l'état de votre connexion internet et réessayez","We were not able to synchronize your data online. Please check your internet connection and try again"});
 
 		errors = new List<string[]>();
 		//0
 		errors.Add(new String[]{"Problème de récupération de données, veuillez réessayer plus tard","Data collection problem. Please try again later"});
 
 	}
+
+	public static string getText(int idReference, List<string> args, int languageID){
+		string text = texts[idReference][languageID];
+		for(int i = 0;i<args.Count;i++){
+			text = text.Replace("ARG"+(i+1),args[i]);
+		}
+		return text;
+	}
+
 }
