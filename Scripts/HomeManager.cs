@@ -11,6 +11,9 @@ public class HomeManager : SceneController {
 	public static HomeManager instance;
 	GameObject header;
 	GameObject collectionZone;
+	GameObject officialGame;
+	GameObject friendlyGame;
+	GameObject statistiques;
 	public int page;
 
 	// Use this for initialization
@@ -21,8 +24,11 @@ public class HomeManager : SceneController {
 		AppModel.instance.setSceneController(this);
 		this.header = GameObject.Find("Header");
 		this.collectionZone = GameObject.Find("CollectionZone");
+		this.officialGame = GameObject.Find("OfficialGame");
+		this.friendlyGame = GameObject.Find("FriendlyGame");
+		this.statistiques = GameObject.Find("Statistiques");
 		this.initTexts();
-		this.header.GetComponent<HomeHeaderController>().updateHeader();
+		this.updateAll();
 		this.resize();
 	}
 	
@@ -67,14 +73,19 @@ public class HomeManager : SceneController {
 	}
 
 	public void showColliders(bool b){
-		this.header.GetComponent<HomeHeaderController>().showColliders(b);
-		this.collectionZone.GetComponent<CollectionZoneController>().showColliders(b);
+		this.header.GetComponent<HomeHeaderController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
+		this.collectionZone.GetComponent<CollectionZoneController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
+		this.officialGame.GetComponent<OfficialGameZoneController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
+		this.friendlyGame.GetComponent<FriendlyGameZoneController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
+		this.statistiques.GetComponent<StatsZoneController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
 	}
 
 	public void resize(){
 		this.header.GetComponent<HomeHeaderController>().resize();
 		this.collectionZone.GetComponent<CollectionZoneController>().resize();
-		this.header.GetComponent<HomeHeaderController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
+		this.officialGame.GetComponent<OfficialGameZoneController>().resize();
+		this.friendlyGame.GetComponent<FriendlyGameZoneController>().resize();
+		this.statistiques.GetComponent<StatsZoneController>().resize();
 	}
 
 	public HomeHeaderController getHeader(){
@@ -88,5 +99,16 @@ public class HomeManager : SceneController {
 	public void updateAll(){
 		this.getHeader().updateHeader();
 		this.getCollection().updateCards(this.page);
+		this.officialGame.GetComponent<OfficialGameZoneController>().updateInfos();
+		this.friendlyGame.GetComponent<FriendlyGameZoneController>().updateInfos();
+		this.statistiques.GetComponent<StatsZoneController>().updateInfos();
+	}
+
+	public void jouerOfficiel(){
+
+	}
+
+	public void jouerAmicalOfficiel(){
+
 	}
 }

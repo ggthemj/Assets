@@ -78,12 +78,23 @@ public class WordingBackOffice
 		texts.Add(new String[]{"Mode connecté","Online mode"});
 		texts.Add(new String[]{"Mode déconnecté","Offline mode"});
 		texts.Add(new String[]{"Souhaitez-vous conserver vos données locales ou les remplacer par les données stockées en ligne?","Would you rather use this device's data or your online data ?"});
-		texts.Add(new String[]{"En passant en mode déconnecté vous pourrez continuer à consulter vos cartes et à disputer des matchs amicaux, mais les matchs en ligne rapportent plus!","You will still be able to manage your collection and fight with your units in offline mode but you will earn less cristals than in online mode"});
+		texts.Add(new String[]{"En passant en mode déconnecté vous ne pourrez plus disputer de matchs officiels!","You will be unable to do official fights. However you will still be able to manage your units and do practice fights"});
 		texts.Add(new String[]{"Annuler","Cancel"});
 		texts.Add(new String[]{"Données locales","Use local data"});
 		texts.Add(new String[]{"Données en ligne","Use online data"});
 		texts.Add(new String[]{"Echec","Sync failed"});
 		texts.Add(new String[]{"Nous n'avons pas pu synchroniser vos données, veuillez vérifier l'état de votre connexion internet et réessayez","We were not able to synchronize your data online. Please check your internet connection and try again"});
+		texts.Add(new String[]{"Match officiel","Official fight"});
+		texts.Add(new String[]{"Match amical","Practice fight"});
+		texts.Add(new String[]{"Statistiques","Statistics"});
+		texts.Add(new String[]{"Maintien","Avoid relegation"});
+		texts.Add(new String[]{"Promotion","Promotion"});
+		texts.Add(new String[]{"Jouer!","Play !"});
+		texts.Add(new String[]{"ARG1 match restant","ARG1 fight left"});
+		texts.Add(new String[]{"ARG1 matchs restants","ARG1 fights left"});
+		texts.Add(new String[]{"division","division"});
+		texts.Add(new String[]{"Vous devez nécessairement vous connecter à Internet pour pouvoir disputer des matchs officiels. Cliquez sur l'icone Wifi ci dessus","You must be connected to Internet to fight against ranked opponents. Please click on the wifi button above"});
+		texts.Add(new String[]{"Les matchs amicaux rapportent moins de cristaux!","Practice fights will make you earn less cristals than official ones"});
 
 		errors = new List<string[]>();
 		//0

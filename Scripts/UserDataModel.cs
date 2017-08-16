@@ -6,6 +6,8 @@ public class UserDataModel
 {
 	public int credits;
 	public int division;
+	public int divisionwins;
+	public int divisiongames;
 	public int loss;
 	public int wins;
 	public int ranking;

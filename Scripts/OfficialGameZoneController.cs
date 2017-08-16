@@ -4,19 +4,19 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CollectionZoneController:MonoBehaviour
+public class OfficialGameZoneController:MonoBehaviour
 {
-	public Sprite[] backgroundCards;
-	public Sprite[] characters;
+	public Sprite[] grads;
 
 	void Start(){
 		this.resize();
-		this.updateCards(0);
+		this.initTexts();
 	}
 
 	public void initTexts(){
-		gameObject.transform.Find("TitleZone").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(26);
-		gameObject.transform.Find("Comment").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(27);
+		gameObject.transform.Find("TitleZone").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(57);
+		gameObject.transform.Find("Jouer").GetComponent<JouerButtonController>().setText(AppModel.instance.getWording(62));
+		gameObject.transform.Find("OfflineText").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(66);
 	}
 
 	public void showColliders(bool b){
@@ -29,9 +29,7 @@ public class CollectionZoneController:MonoBehaviour
 	}
 
 	public void showDesktopColliders(bool b){
-		for(int i = 0 ; i < 12 ; i++){
-			gameObject.transform.Find("Card"+i).GetComponent<BoxCollider2D>().enabled = b;
-		}
+		gameObject.transform.Find("Jouer").GetComponent<JouerButtonController>().GetComponent<BoxCollider2D>().enabled = b;
 	}
 
 	public void showMobileColliders(bool b){
@@ -42,104 +40,217 @@ public class CollectionZoneController:MonoBehaviour
 		
 	}
 
-	public void updateCards(int page){
-		for(int i = 0 ; i < 12 ; i++){
-			if(AppModel.instance.userData.cards[page*12+i].getLevel()>=20){
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[4];
-			}
-			else if(AppModel.instance.userData.cards[page*12+i].getLevel()>=15){
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[3];
-			}
-			else if(AppModel.instance.userData.cards[page*12+i].getLevel()>=10){
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[2];
-			}
-			else if(AppModel.instance.userData.cards[page*12+i].getLevel()>=5){
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[1];
-			}
-			else{
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[0];
-			}
-			gameObject.transform.Find("Card"+i).FindChild("CaracBackground").GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.Find("Card"+i).FindChild("Unit").GetComponent<SpriteRenderer>().sprite = this.characters[page*12+i];
-
-			if(AppModel.instance.userData.cards[page*12+i].skill1>0){
-				gameObject.transform.Find("Card"+i).FindChild("LifeValue").GetComponent<TextMeshPro>().text = AppModel.instance.getLifeCard(page*12+i,AppModel.instance.userData.cards[page*12+i].life).ToString();
-				gameObject.transform.Find("Card"+i).FindChild("LifeValue").GetComponent<MeshRenderer>().enabled = true;
-				gameObject.transform.Find("Card"+i).FindChild("SpeedValue").GetComponent<TextMeshPro>().text = AppModel.instance.getMoveCard(page*12+i,AppModel.instance.userData.cards[page*12+i].move).ToString();
-				gameObject.transform.Find("Card"+i).FindChild("SpeedValue").GetComponent<MeshRenderer>().enabled = true;
-				gameObject.transform.Find("Card"+i).FindChild("SpeedIcon").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Card"+i).FindChild("LifeIcon").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Card"+i).FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Card"+i).FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = AppModel.instance.getSkillSprite(page*12+4*i+1);
-				if(AppModel.instance.userData.cards[page*12+i].skill0>0){
-					gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().sprite = AppModel.instance.getSkillSprite(page*12+4*i);
-				}
-				else{
-					gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = false;
-				}
-				if(AppModel.instance.userData.cards[page*12+i].skill2>0){
-					gameObject.transform.Find("Card"+i).FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Card"+i).FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = AppModel.instance.getSkillSprite(page*12+4*i+2);
-				}
-				else{
-					gameObject.transform.Find("Card"+i).FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = false;
-				}
-				if(AppModel.instance.userData.cards[page*12+i].skill3>0){
-					gameObject.transform.Find("Card"+i).FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Card"+i).FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = AppModel.instance.getSkillSprite(page*12+4*i+3);
-				}
-				else{
-					gameObject.transform.Find("Card"+i).FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false;
-				}
-				gameObject.transform.Find("Card"+i).FindChild("Niveau").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(5, new List<int>(){AppModel.instance.userData.cards[page*12+i].getLevel()});
-				gameObject.transform.Find("Card"+i).FindChild("GreyBack").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("LockedZone").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("LockedZone").FindChild("LockedText").GetComponent<MeshRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("Name").GetComponent<MeshRenderer>().enabled = false;
-
-			}
-			else{
-				gameObject.transform.Find("Card"+i).FindChild("LifeValue").GetComponent<MeshRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("SpeedValue").GetComponent<MeshRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("SpeedIcon").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("LifeIcon").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("Niveau").GetComponent<MeshRenderer>().enabled = false;
-				gameObject.transform.Find("Card"+i).FindChild("GreyBack").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Card"+i).FindChild("LockedZone").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Card"+i).FindChild("LockedZone").FindChild("LockedText").GetComponent<TextMeshPro>().text = AppModel.instance.getUnlockText(page*12+i);
-				gameObject.transform.Find("Card"+i).FindChild("LockedZone").FindChild("LockedText").GetComponent<MeshRenderer>().enabled = true;
-				gameObject.transform.Find("Card"+i).FindChild("Name").GetComponent<TextMeshPro>().text = AppModel.instance.getCardNameText(page*12+i);;
-				gameObject.transform.Find("Card"+i).FindChild("Name").GetComponent<MeshRenderer>().enabled = true;
-			}
-		}
-	}
-
 	public void resize(){
 		float w = AppModel.instance.widthScreen;
 		float h = AppModel.instance.heightScreen;
 		if(AppModel.instance.widthScreen>AppModel.instance.heightScreen){
-			gameObject.transform.Find("Background").localPosition = new Vector3((-1*((10f*w/h)/6f)),-0.60f,0f);
-			gameObject.transform.Find("Background").localScale = new Vector3((1*(1080f*0.64f*w/h)),910f,0f);
-			gameObject.transform.Find("TitleZone").localPosition = new Vector3((-1*((10f*w/h)/2f-3f)),3.25f,0f);
-			gameObject.transform.Find("Comment").localPosition = new Vector3((-1*((10f*w/h)/6f)),-4.55f,0f);
-			gameObject.transform.Find("Comment").GetComponent<RectTransform>().sizeDelta = new Vector2((20f*w/h)/3.2f,0.5f);
-			gameObject.transform.Find("Card0").localPosition = new Vector3((-1*((10f*w/h)/6f+(3*6.4f*w/h)/8f)),1.75f,0f);
-			gameObject.transform.Find("Card1").localPosition = new Vector3((-1*((10f*w/h)/6f+(6.4f*w/h)/8f)),1.75f,0f);
-			gameObject.transform.Find("Card2").localPosition = new Vector3((-1*((10f*w/h)/6f-(6.4f*w/h)/8f)),1.75f,0f);
-			gameObject.transform.Find("Card3").localPosition = new Vector3((-1*((10f*w/h)/6f-(3*6.4f*w/h)/8f)),1.75f,0f);
-			gameObject.transform.Find("Card4").localPosition = new Vector3((-1*((10f*w/h)/6f+(3*6.4f*w/h)/8f)),-0.75f,0f);
-			gameObject.transform.Find("Card5").localPosition = new Vector3((-1*((10f*w/h)/6f+(6.4f*w/h)/8f)),-0.75f,0f);
-			gameObject.transform.Find("Card6").localPosition = new Vector3((-1*((10f*w/h)/6f-(6.4f*w/h)/8f)),-0.75f,0f);
-			gameObject.transform.Find("Card7").localPosition = new Vector3((-1*((10f*w/h)/6f-(3*6.4f*w/h)/8f)),-0.75f,0f);
-			gameObject.transform.Find("Card8").localPosition = new Vector3((-1*((10f*w/h)/6f+(3*6.4f*w/h)/8f)),-3.25f,0f);
-			gameObject.transform.Find("Card9").localPosition = new Vector3((-1*((10f*w/h)/6f+(6.4f*w/h)/8f)),-3.25f,0f);
-			gameObject.transform.Find("Card10").localPosition = new Vector3((-1*((10f*w/h)/6f-(6.4f*w/h)/8f)),-3.25f,0f);
-			gameObject.transform.Find("Card11").localPosition = new Vector3((-1*((10f*w/h)/6f-(3*6.4f*w/h)/8f)),-3.25f,0f);
+			gameObject.transform.localPosition = new Vector3((0.33f*((10f*w/h))),2.25f,0f);
+			gameObject.transform.Find("Background").localScale = new Vector3((1*(1080f*0.32f*w/h)),290f,0f);
+			gameObject.transform.Find("TitleZone").localPosition = new Vector3(0f, 1.05f, 0f);
+			gameObject.transform.Find("Maintien").localPosition = new Vector3(-1*((1.6f*w)/h)+1.9f, -0.7f, 0f);
+			gameObject.transform.Find("Montee").localPosition = new Vector3(-1*((1.6f*w)/h)+1.9f, -1.1f, 0f);
+			gameObject.transform.Find("DivisionIcon").localPosition = new Vector3(1*((10f*w)/h)/9f, 0.7f, 0f);
+			gameObject.transform.Find("Jouer").localPosition = new Vector3(-1*((10f*w)/h)/20f, 0.3f, 0f);
+			gameObject.transform.Find("MatchsRestants").localPosition = new Vector3(0f, -0.35f, 0f);
+			gameObject.transform.Find("OfflineText").GetComponent<RectTransform>().sizeDelta = new Vector2(1f*((3f*w)/h), 2f);
+		}
+	}
+
+	public void updateInfos(){
+		if(AppModel.instance.isOnline){
+			if(AppModel.instance.userData.division==5){
+				gameObject.transform.Find("Montee").FindChild("Title").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(60)+" Div.4";
+				gameObject.transform.Find("Maintien").FindChild("Title").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(60);
+			}
+			else if(AppModel.instance.userData.division==1){
+				gameObject.transform.Find("Montee").FindChild("Title").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(61)+" Div.3";
+				gameObject.transform.Find("Maintien").FindChild("Title").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(61);
+			}
+			else{
+				gameObject.transform.Find("Montee").FindChild("Title").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(61);
+				gameObject.transform.Find("Maintien").FindChild("Title").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(60);
+			}
+			gameObject.transform.Find("Montee").FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+			gameObject.transform.Find("Maintien").FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+
+			if(AppModel.instance.userData.divisiongames==9){
+				gameObject.transform.Find("MatchsRestants").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(63, new List<int>(){10-AppModel.instance.userData.divisiongames});
+			}
+			else{
+				gameObject.transform.Find("MatchsRestants").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(64, new List<int>(){10-AppModel.instance.userData.divisiongames});
+			}
+			gameObject.transform.Find("MatchsRestants").GetComponent<MeshRenderer>().enabled = true;
+
+			gameObject.transform.Find("OfflineText").GetComponent<MeshRenderer>().enabled = false;
+			gameObject.transform.Find("DivisionIcon").FindChild("TitleDivision").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(65)+" "+AppModel.instance.userData.division;
+				
+			if(AppModel.instance.userData.division==1){
+				gameObject.transform.Find("DivisionIcon").GetComponent<SpriteRenderer>().color = new Color(150f/255f, 150f/255f, 150f/255f);
+				gameObject.transform.Find("DivisionIcon").FindChild("TitleDivision").GetComponent<TextMeshPro>().color = new Color(150f/255f, 150f/255f, 150f/255f);
+			}
+			else if(AppModel.instance.userData.division==2){
+				gameObject.transform.Find("DivisionIcon").GetComponent<SpriteRenderer>().color = new Color(110f/255f, 150f/255f, 165f/255f);
+				gameObject.transform.Find("DivisionIcon").FindChild("TitleDivision").GetComponent<TextMeshPro>().color = new Color(110f/255f, 150f/255f, 165f/255f);
+			}
+			else if(AppModel.instance.userData.division==3){
+				gameObject.transform.Find("DivisionIcon").GetComponent<SpriteRenderer>().color = new Color(71f/255f, 150f/255f, 189f/255f);
+				gameObject.transform.Find("DivisionIcon").FindChild("TitleDivision").GetComponent<TextMeshPro>().color = new Color(71f/255f, 150f/255f, 189f/255f);
+			}
+			else if(AppModel.instance.userData.division==4){
+				gameObject.transform.Find("DivisionIcon").GetComponent<SpriteRenderer>().color = new Color(151f/255f, 75f/255f, 128f/255f);
+				gameObject.transform.Find("DivisionIcon").FindChild("TitleDivision").GetComponent<TextMeshPro>().color = new Color(151f/255f, 75f/255f, 128f/255f);
+			}
+			else if(AppModel.instance.userData.division==5){
+				gameObject.transform.Find("DivisionIcon").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f/255f, 66f/255f);
+				gameObject.transform.Find("DivisionIcon").FindChild("TitleDivision").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f/255f, 66f/255f);
+			}
+			gameObject.transform.Find("DivisionIcon").FindChild("TitleDivision").GetComponent<MeshRenderer>().enabled = true;
+			gameObject.transform.Find("DivisionIcon").GetComponent<SpriteRenderer>().enabled = true;
+
+			int nbToDisplay1 = 0;
+			int nbToDisplay2 = 0;
+			if(AppModel.instance.userData.division==1){
+				nbToDisplay1 = 4 ;
+				nbToDisplay2 = 3 ;
+			}
+			else if(AppModel.instance.userData.division==2){
+				nbToDisplay1 = 3 ;
+				nbToDisplay2 = 2 ;
+			}
+			else if(AppModel.instance.userData.division==3){
+				nbToDisplay1 = 4 ;
+				nbToDisplay2 = 2 ;
+			}
+			else if(AppModel.instance.userData.division==4){
+				nbToDisplay1 = 4 ;
+				nbToDisplay2 = 3 ;
+			}
+			else if(AppModel.instance.userData.division==5){
+				nbToDisplay1 = 2 ;
+				nbToDisplay2 = 3 ;
+			}
+
+			if(nbToDisplay1>=1){
+				if(AppModel.instance.userData.divisionwins>=1){
+					gameObject.transform.Find("Maintien").FindChild("Grad1").GetComponent<SpriteRenderer>().sprite = this.grads[1];
+				}
+				else{
+					gameObject.transform.Find("Maintien").FindChild("Grad1").GetComponent<SpriteRenderer>().sprite = this.grads[0];
+				}
+				gameObject.transform.Find("Maintien").FindChild("Grad1").GetComponent<SpriteRenderer>().enabled = true;
+			}
+			else{
+				gameObject.transform.Find("Maintien").FindChild("Grad1").GetComponent<SpriteRenderer>().enabled = false;
+			}
+
+			if(nbToDisplay1>=2){
+				if(AppModel.instance.userData.divisionwins>=2){
+					gameObject.transform.Find("Maintien").FindChild("Grad2").GetComponent<SpriteRenderer>().sprite = this.grads[1];
+				}
+				else{
+					gameObject.transform.Find("Maintien").FindChild("Grad2").GetComponent<SpriteRenderer>().sprite = this.grads[0];
+				}
+				gameObject.transform.Find("Maintien").FindChild("Grad2").GetComponent<SpriteRenderer>().enabled = true;
+			}
+			else{
+				gameObject.transform.Find("Maintien").FindChild("Grad2").GetComponent<SpriteRenderer>().enabled = false;
+			}
+
+			if(nbToDisplay1>=3){
+				if(AppModel.instance.userData.divisionwins>=3){
+					gameObject.transform.Find("Maintien").FindChild("Grad3").GetComponent<SpriteRenderer>().sprite = this.grads[1];
+				}
+				else{
+					gameObject.transform.Find("Maintien").FindChild("Grad3").GetComponent<SpriteRenderer>().sprite = this.grads[0];
+				}
+				gameObject.transform.Find("Maintien").FindChild("Grad3").GetComponent<SpriteRenderer>().enabled = true;
+			}
+			else{
+				gameObject.transform.Find("Maintien").FindChild("Grad3").GetComponent<SpriteRenderer>().enabled = false;
+			}
+
+			if(nbToDisplay1>=4){
+				if(AppModel.instance.userData.divisionwins>=4){
+					gameObject.transform.Find("Maintien").FindChild("Grad4").GetComponent<SpriteRenderer>().sprite = this.grads[1];
+				}
+				else{
+					gameObject.transform.Find("Maintien").FindChild("Grad4").GetComponent<SpriteRenderer>().sprite = this.grads[0];
+				}
+				gameObject.transform.Find("Maintien").FindChild("Grad4").GetComponent<SpriteRenderer>().enabled = true;
+			}
+			else{
+				gameObject.transform.Find("Maintien").FindChild("Grad4").GetComponent<SpriteRenderer>().enabled = false;
+			}
+
+			if(nbToDisplay2>=1){
+				if(AppModel.instance.userData.divisionwins>=nbToDisplay1+1){
+					gameObject.transform.Find("Montee").FindChild("Grad1").GetComponent<SpriteRenderer>().sprite = this.grads[1];
+				}
+				else{
+					gameObject.transform.Find("Montee").FindChild("Grad1").GetComponent<SpriteRenderer>().sprite = this.grads[0];
+				}
+				gameObject.transform.Find("Montee").FindChild("Grad1").GetComponent<SpriteRenderer>().enabled = true;
+			}
+			else{
+				gameObject.transform.Find("Montee").FindChild("Grad1").GetComponent<SpriteRenderer>().enabled = false;
+			}
+
+			if(nbToDisplay2>=2){
+				if(AppModel.instance.userData.divisionwins>=nbToDisplay1+2){
+					gameObject.transform.Find("Montee").FindChild("Grad2").GetComponent<SpriteRenderer>().sprite = this.grads[1];
+				}
+				else{
+					gameObject.transform.Find("Montee").FindChild("Grad2").GetComponent<SpriteRenderer>().sprite = this.grads[0];
+				}
+				gameObject.transform.Find("Montee").FindChild("Grad2").GetComponent<SpriteRenderer>().enabled = true;
+			}
+			else{
+				gameObject.transform.Find("Montee").FindChild("Grad2").GetComponent<SpriteRenderer>().enabled = false;
+			}
+
+			if(nbToDisplay2>=3){
+				if(AppModel.instance.userData.divisionwins>=nbToDisplay1+3){
+					gameObject.transform.Find("Montee").FindChild("Grad3").GetComponent<SpriteRenderer>().sprite = this.grads[1];
+				}
+				else{
+					gameObject.transform.Find("Montee").FindChild("Grad3").GetComponent<SpriteRenderer>().sprite = this.grads[0];
+				}
+				gameObject.transform.Find("Montee").FindChild("Grad3").GetComponent<SpriteRenderer>().enabled = true;
+			}
+			else{
+				gameObject.transform.Find("Montee").FindChild("Grad3").GetComponent<SpriteRenderer>().enabled = false;
+			}
+
+			if(nbToDisplay2>=4){
+				if(AppModel.instance.userData.divisionwins>=nbToDisplay1+4){
+					gameObject.transform.Find("Montee").FindChild("Grad4").GetComponent<SpriteRenderer>().sprite = this.grads[1];
+				}
+				else{
+					gameObject.transform.Find("Montee").FindChild("Grad4").GetComponent<SpriteRenderer>().sprite = this.grads[0];
+				}
+				gameObject.transform.Find("Montee").FindChild("Grad4").GetComponent<SpriteRenderer>().enabled = true;
+			}
+			else{
+				gameObject.transform.Find("Montee").FindChild("Grad4").GetComponent<SpriteRenderer>().enabled = false;
+			}
+			gameObject.transform.Find("Jouer").GetComponent<JouerButtonController>().show(true);
+		}
+		else{
+			gameObject.transform.Find("Montee").FindChild("Title").GetComponent<MeshRenderer>().enabled = false;
+			gameObject.transform.Find("Maintien").FindChild("Title").GetComponent<MeshRenderer>().enabled = false;
+			gameObject.transform.Find("MatchsRestants").GetComponent<MeshRenderer>().enabled = false;
+			gameObject.transform.Find("OfflineText").GetComponent<MeshRenderer>().enabled = true;
+			gameObject.transform.Find("DivisionIcon").FindChild("TitleDivision").GetComponent<MeshRenderer>().enabled = false;
+			gameObject.transform.Find("DivisionIcon").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.Find("Maintien").FindChild("Grad1").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.Find("Maintien").FindChild("Grad2").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.Find("Maintien").FindChild("Grad3").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.Find("Maintien").FindChild("Grad4").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.Find("Montee").FindChild("Grad1").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.Find("Montee").FindChild("Grad2").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.Find("Montee").FindChild("Grad3").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.Find("Montee").FindChild("Grad4").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.Find("Jouer").GetComponent<JouerButtonController>().show(false);
 		}
 	}
 }

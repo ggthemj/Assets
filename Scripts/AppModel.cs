@@ -216,6 +216,7 @@ public class AppModel : MonoBehaviour
 			this.isOnline = false;
 			HomeManager.instance.getHeader().switchConnectionButton();
 			this.popUp.show(false);
+			HomeManager.instance.updateAll();
 			HomeManager.instance.showColliders(true);
 		}
 		else if(this.popUpStatus==4){
@@ -244,6 +245,7 @@ public class AppModel : MonoBehaviour
 				PlayerPrefs.SetInt("toSync",0);
 				this.isOnline = true;
 				HomeManager.instance.showColliders(true);
+				HomeManager.instance.updateAll();
 				HomeManager.instance.getHeader().switchConnectionButton();
 				this.loadingScreen.hideLoading();
 			}

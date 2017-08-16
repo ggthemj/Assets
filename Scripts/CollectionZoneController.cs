@@ -11,6 +11,7 @@ public class CollectionZoneController:MonoBehaviour
 
 	void Start(){
 		this.resize();
+		this.initTexts();
 		this.updateCards(0);
 	}
 
@@ -123,23 +124,23 @@ public class CollectionZoneController:MonoBehaviour
 		float w = AppModel.instance.widthScreen;
 		float h = AppModel.instance.heightScreen;
 		if(AppModel.instance.widthScreen>AppModel.instance.heightScreen){
-			gameObject.transform.Find("Background").localPosition = new Vector3((-1*((10f*w/h)/6f)),-0.60f,0f);
-			gameObject.transform.Find("Background").localScale = new Vector3((1*(1080f*0.64f*w/h)),910f,0f);
-			gameObject.transform.Find("TitleZone").localPosition = new Vector3((-1*((10f*w/h)/2f-3f)),3.25f,0f);
-			gameObject.transform.Find("Comment").localPosition = new Vector3((-1*((10f*w/h)/6f)),-4.55f,0f);
-			gameObject.transform.Find("Comment").GetComponent<RectTransform>().sizeDelta = new Vector2((20f*w/h)/3.2f,0.5f);
-			gameObject.transform.Find("Card0").localPosition = new Vector3((-1*((10f*w/h)/6f+(3*6.4f*w/h)/8f)),1.75f,0f);
-			gameObject.transform.Find("Card1").localPosition = new Vector3((-1*((10f*w/h)/6f+(6.4f*w/h)/8f)),1.75f,0f);
-			gameObject.transform.Find("Card2").localPosition = new Vector3((-1*((10f*w/h)/6f-(6.4f*w/h)/8f)),1.75f,0f);
-			gameObject.transform.Find("Card3").localPosition = new Vector3((-1*((10f*w/h)/6f-(3*6.4f*w/h)/8f)),1.75f,0f);
-			gameObject.transform.Find("Card4").localPosition = new Vector3((-1*((10f*w/h)/6f+(3*6.4f*w/h)/8f)),-0.75f,0f);
-			gameObject.transform.Find("Card5").localPosition = new Vector3((-1*((10f*w/h)/6f+(6.4f*w/h)/8f)),-0.75f,0f);
-			gameObject.transform.Find("Card6").localPosition = new Vector3((-1*((10f*w/h)/6f-(6.4f*w/h)/8f)),-0.75f,0f);
-			gameObject.transform.Find("Card7").localPosition = new Vector3((-1*((10f*w/h)/6f-(3*6.4f*w/h)/8f)),-0.75f,0f);
-			gameObject.transform.Find("Card8").localPosition = new Vector3((-1*((10f*w/h)/6f+(3*6.4f*w/h)/8f)),-3.25f,0f);
-			gameObject.transform.Find("Card9").localPosition = new Vector3((-1*((10f*w/h)/6f+(6.4f*w/h)/8f)),-3.25f,0f);
-			gameObject.transform.Find("Card10").localPosition = new Vector3((-1*((10f*w/h)/6f-(6.4f*w/h)/8f)),-3.25f,0f);
-			gameObject.transform.Find("Card11").localPosition = new Vector3((-1*((10f*w/h)/6f-(3*6.4f*w/h)/8f)),-3.25f,0f);
+			gameObject.transform.localPosition = new Vector3((-1*((10f*w/h)/6f)),-0.60f,0f);
+			gameObject.transform.Find("Background").localScale = new Vector3((1*(1080f*0.65f*w/h)),910f,0f);
+			gameObject.transform.Find("TitleZone").localPosition = new Vector3((-1*0.30f*10f*w)/h+2.5f,3.95f,0f);
+			gameObject.transform.Find("Comment").localPosition = new Vector3((-1*0.30f*10f*w)/h+4f,3.60f,0f);
+
+			gameObject.transform.Find("Card0").localPosition = new Vector3(-1*((0.025f+0.05f)*10f*w)/h,2.3f,0f);
+			gameObject.transform.Find("Card1").localPosition = new Vector3(-1*((0.025f+0.05f+0.15f)*10f*w)/h,2.3f,0f);
+			gameObject.transform.Find("Card2").localPosition = new Vector3(1*((0.025f+0.05f)*10f*w)/h,2.3f,0f);
+			gameObject.transform.Find("Card3").localPosition = new Vector3(1*((0.025f+0.05f+0.15f)*10f*w)/h,2.3f,0f);
+			gameObject.transform.Find("Card4").localPosition = new Vector3(-1*((0.025f+0.05f)*10f*w)/h,-0.3f,0f);
+			gameObject.transform.Find("Card5").localPosition = new Vector3(-1*((0.025f+0.05f+0.15f)*10f*w)/h,-0.3f,0f);
+			gameObject.transform.Find("Card6").localPosition = new Vector3(1*((0.025f+0.05f)*10f*w)/h,-0.3f,0f);
+			gameObject.transform.Find("Card7").localPosition = new Vector3(1*((0.025f+0.05f+0.15f)*10f*w)/h,-0.3f,0f);
+			gameObject.transform.Find("Card8").localPosition = new Vector3(-1*((0.025f+0.05f)*10f*w)/h,-2.9f,0f);
+			gameObject.transform.Find("Card9").localPosition = new Vector3(-1*((0.025f+0.05f+0.15f)*10f*w)/h,-2.9f,0f);
+			gameObject.transform.Find("Card10").localPosition = new Vector3(1*((0.025f+0.05f)*10f*w)/h,-2.9f,0f);
+			gameObject.transform.Find("Card11").localPosition = new Vector3(1*((0.025f+0.05f+0.15f)*10f*w)/h,-2.9f,0f);
 		}
 	}
 }
