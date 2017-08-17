@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class UserDataModel
 {
@@ -16,6 +17,9 @@ public class UserDataModel
 	public int stars;
 	public string name;
 	public int iconid;
+	public int classementfighter;
+	public int classementcollec;
+	public int haslaunchedgame;
 	public int card0_0;
 	public int card0_1;
 	public int card0_2;
@@ -111,6 +115,97 @@ public class UserDataModel
 		this.cards.Add(new CardModel(card11_0, card11_1, card11_2, card11_3, card11_4, card11_5));
 	}
 
+	public void fillPlayerPrefs(){
+		PlayerPrefs.SetInt("credits",credits);
+		PlayerPrefs.SetInt("division",division);
+		PlayerPrefs.SetInt("divisionwins",divisionwins);
+		PlayerPrefs.SetInt("divisiongames",divisiongames);
+		PlayerPrefs.SetInt("loss",loss);
+		PlayerPrefs.SetInt("wins",wins);
+		PlayerPrefs.SetInt("ranking",ranking);
+		PlayerPrefs.SetInt("rankingpoints",rankingpoints);
+		PlayerPrefs.SetInt("rowwins",rowwins);
+		PlayerPrefs.SetInt("stars",stars);
+		PlayerPrefs.SetString("name",name);
+		PlayerPrefs.SetInt("iconid",iconid);
+		PlayerPrefs.SetInt("classementfighter",classementfighter);
+		PlayerPrefs.SetInt("classementcollec",classementcollec);
+		PlayerPrefs.SetInt("haslaunchedgame",haslaunchedgame);
+
+		PlayerPrefs.SetInt("card0_0",card0_0);
+		PlayerPrefs.SetInt("card0_1",card0_1);
+		PlayerPrefs.SetInt("card0_2",card0_2);
+		PlayerPrefs.SetInt("card0_3",card0_3);
+		PlayerPrefs.SetInt("card0_4",card0_4);
+		PlayerPrefs.SetInt("card0_5",card0_5);
+		PlayerPrefs.SetInt("card1_0",card1_0);
+		PlayerPrefs.SetInt("card1_1",card1_1);
+		PlayerPrefs.SetInt("card1_2",card1_2);
+		PlayerPrefs.SetInt("card1_3",card1_3);
+		PlayerPrefs.SetInt("card1_4",card1_4);
+		PlayerPrefs.SetInt("card1_5",card1_5);
+		PlayerPrefs.SetInt("card2_0",card2_0);
+		PlayerPrefs.SetInt("card2_1",card2_1);
+		PlayerPrefs.SetInt("card2_2",card2_2);
+		PlayerPrefs.SetInt("card2_3",card2_3);
+		PlayerPrefs.SetInt("card2_4",card2_4);
+		PlayerPrefs.SetInt("card2_5",card2_5);
+		PlayerPrefs.SetInt("card3_0",card3_0);
+		PlayerPrefs.SetInt("card3_1",card3_1);
+		PlayerPrefs.SetInt("card3_2",card3_2);
+		PlayerPrefs.SetInt("card3_3",card3_3);
+		PlayerPrefs.SetInt("card3_4",card3_4);
+		PlayerPrefs.SetInt("card3_5",card3_5);
+		PlayerPrefs.SetInt("card4_0",card4_0);
+		PlayerPrefs.SetInt("card4_1",card4_1);
+		PlayerPrefs.SetInt("card4_2",card4_2);
+		PlayerPrefs.SetInt("card4_3",card4_3);
+		PlayerPrefs.SetInt("card4_4",card4_4);
+		PlayerPrefs.SetInt("card4_5",card4_5);
+		PlayerPrefs.SetInt("card5_0",card5_0);
+		PlayerPrefs.SetInt("card5_1",card5_1);
+		PlayerPrefs.SetInt("card5_2",card5_2);
+		PlayerPrefs.SetInt("card5_3",card5_3);
+		PlayerPrefs.SetInt("card5_4",card5_4);
+		PlayerPrefs.SetInt("card5_5",card5_5);
+		PlayerPrefs.SetInt("card6_0",card6_0);
+		PlayerPrefs.SetInt("card6_1",card6_1);
+		PlayerPrefs.SetInt("card6_2",card6_2);
+		PlayerPrefs.SetInt("card6_3",card6_3);
+		PlayerPrefs.SetInt("card6_4",card6_4);
+		PlayerPrefs.SetInt("card6_5",card6_5);
+		PlayerPrefs.SetInt("card7_0",card7_0);
+		PlayerPrefs.SetInt("card7_1",card7_1);
+		PlayerPrefs.SetInt("card7_2",card7_2);
+		PlayerPrefs.SetInt("card7_3",card7_3);
+		PlayerPrefs.SetInt("card7_4",card7_4);
+		PlayerPrefs.SetInt("card7_5",card7_5);
+		PlayerPrefs.SetInt("card8_0",card8_0);
+		PlayerPrefs.SetInt("card8_1",card8_1);
+		PlayerPrefs.SetInt("card8_2",card8_2);
+		PlayerPrefs.SetInt("card8_3",card8_3);
+		PlayerPrefs.SetInt("card8_4",card8_4);
+		PlayerPrefs.SetInt("card8_5",card8_5);
+		PlayerPrefs.SetInt("card9_0",card9_0);
+		PlayerPrefs.SetInt("card9_1",card9_1);
+		PlayerPrefs.SetInt("card9_2",card9_2);
+		PlayerPrefs.SetInt("card9_3",card9_3);
+		PlayerPrefs.SetInt("card9_4",card9_4);
+		PlayerPrefs.SetInt("card9_5",card9_5);
+		PlayerPrefs.SetInt("card10_0",card10_0);
+		PlayerPrefs.SetInt("card10_1",card10_1);
+		PlayerPrefs.SetInt("card10_2",card10_2);
+		PlayerPrefs.SetInt("card10_3",card10_3);
+		PlayerPrefs.SetInt("card10_4",card10_4);
+		PlayerPrefs.SetInt("card10_5",card10_5);
+		PlayerPrefs.SetInt("card11_0",card11_0);
+		PlayerPrefs.SetInt("card11_1",card11_1);
+		PlayerPrefs.SetInt("card11_2",card11_2);
+		PlayerPrefs.SetInt("card11_3",card11_3);
+		PlayerPrefs.SetInt("card11_4",card11_4);
+		PlayerPrefs.SetInt("card11_5",card11_5);
+	}
+
 	public void reverseFillCards(){
 		this.card0_0 = this.cards[0].move ;
 		this.card0_1 = this.cards[0].life ;
@@ -184,5 +279,48 @@ public class UserDataModel
 		this.card11_3 = this.cards[11].skill1 ;
 		this.card11_4 = this.cards[11].skill2 ;
 		this.card11_5 = this.cards[11].skill3 ;
+
+	}
+
+	public int getTotalLevel(){
+		int level = 0 ; 
+		for (int i = 0 ; i < this.cards.Count ; i++){
+			level+=this.cards[i].getLevel();
+		}
+		return Mathf.FloorToInt(100*level/(this.cards.Count*25f));
+	}
+
+	public List<int> getRandom4Units(){
+		List<int> listeBase = new List<int>();
+		List<int> liste = new List<int>();
+		int temp ;
+		for(int i = 0 ; i < AppModel.instance.userData.cards.Count ; i++){
+			if(AppModel.instance.userData.cards[i].skill1>0){
+				listeBase.Add(i);
+			}
+		}
+
+		for(int i = 0 ; i < 4 ; i++){
+			temp = UnityEngine.Random.Range(0,listeBase.Count-1);
+			liste.Add(listeBase[temp]);
+			listeBase.RemoveAt(temp);
+		}
+
+		return liste;
+	}
+
+	public int getRandomUnitLeft(List<int> usedUnits){
+		List<int> listeBase = new List<int>();
+		for(int i = 0 ; i < AppModel.instance.userData.cards.Count ; i++){
+			if(AppModel.instance.userData.cards[i].skill1>0){
+				listeBase.Add(i);
+			}
+		}
+
+		for(int i = 0 ; i < 4 ; i++){
+			listeBase.Remove(usedUnits[i]);
+		}
+
+		return listeBase[UnityEngine.Random.Range(0,listeBase.Count-1)];
 	}
 }

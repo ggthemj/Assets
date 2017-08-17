@@ -29,7 +29,7 @@ public class FriendlyGameZoneController:MonoBehaviour
 	}
 
 	public void showDesktopColliders(bool b){
-		gameObject.transform.Find("Jouer").GetComponent<JouerButtonController>().GetComponent<BoxCollider2D>().enabled = b;
+		gameObject.transform.Find("Jouer").GetComponent<JouerAmicalButtonController>().GetComponent<BoxCollider2D>().enabled = b;
 	}
 
 	public void showMobileColliders(bool b){
@@ -47,6 +47,7 @@ public class FriendlyGameZoneController:MonoBehaviour
 			gameObject.transform.localPosition = new Vector3((0.33f*((10f*w/h))),-0.6f,0f);
 			gameObject.transform.Find("Background").localScale = new Vector3((1*(1080f*0.32f*w/h)),290f,0f);
 			gameObject.transform.Find("TitleZone").localPosition = new Vector3(0f, 1.05f, 0f);
+			gameObject.transform.Find("TitleZone").GetComponent<RectTransform>().sizeDelta = new Vector2(1f*((3f*w)/h), 0.5f);
 			gameObject.transform.Find("Jouer").localPosition = new Vector3(0f, -0.8f, 0f);
 			gameObject.transform.Find("OfflineText").GetComponent<RectTransform>().sizeDelta = new Vector2(1f*((3f*w)/h), 1.2f);
 		}

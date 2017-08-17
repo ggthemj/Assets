@@ -29,13 +29,17 @@ public class AppModel : MonoBehaviour
 	public int status;
 	public int popUpStatus;
 	public int popUpStatusNo;
+	public bool isFriendly;
 
 	public Sprite[] skillSprites;
 	public Sprite[] bigCharacterSprites;
+	public Sprite[] backgroundCards;
+	public Sprite[] characters;
 
 	void Awake(){
 		instance = this;
 		this.isOnline = true;
+		this.isFriendly = false;
 		this.status = 0;
 		this.popUpStatus = 0;
 		this.popUpStatusNo = 0;
@@ -145,6 +149,14 @@ public class AppModel : MonoBehaviour
 		return this.bigCharacterSprites[id];
 	}
 
+	public Sprite getCardBackground(int id){
+		return this.backgroundCards[id];
+	}
+
+	public Sprite getCharacter(int id){
+		return this.characters[id];
+	}
+
 	public void getPlayerData(string login){
 		this.loadingScreen.showLoading();
 		FirebaseDatabase.DefaultInstance.GetReference("users").Child(login).GetValueAsync().ContinueWith(task => {
@@ -159,6 +171,8 @@ public class AppModel : MonoBehaviour
 				DataSnapshot snapshot = task.Result;
 				if(snapshot.HasChild("credits")){
 					this.fillUserDataWithJson(snapshot);
+					this.userData.fillPlayerPrefs();
+
 					this.sceneController.resume("");
 	         	}
 	         	else{
@@ -476,5 +490,33 @@ public class AppModel : MonoBehaviour
 		this.bigCard.updateValues();
 		this.bigCard.showColliders(true);
 		this.bigCard.show(true);
+	}
+
+	public void launchGame(){
+		HomeManager.instance.showColliders(false);
+		this.loadingScreen.showLoading();			
+		FirebaseDatabase.DefaultInstance.GetReference("users").Child(AppModel.instance.userData.name).Child("haslaunchedgame").SetValueAsync(1).ContinueWith(task => {
+			if(task.IsFaulted){
+				Debug.Log("Erreur "+task.Exception.ToString());
+				PlayerPrefs.SetInt("toSync",1);
+				this.isOnline = false;
+				HomeManager.instance.getHeader().switchConnectionButton();
+
+				if(AppModel.instance.isFriendly){
+					AppModel.instance.userData.haslaunchedgame = 1;
+					PlayerPrefs.SetInt("haslaunchedgame", 1);
+					HomeManager.instance.launchPregame();
+				}
+				else{
+					this.popUpStatus = 5;
+					this.launchConfirmation(false, AppModel.instance.getWording(46), AppModel.instance.getWording(73), AppModel.instance.getWording(32) , "");
+				}
+			}
+			else if(task.IsCompleted){
+				AppModel.instance.userData.haslaunchedgame = 1;
+				PlayerPrefs.SetInt("haslaunchedgame", 1);
+				HomeManager.instance.launchPregame();
+			}
+		});
 	}
 }

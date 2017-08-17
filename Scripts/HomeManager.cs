@@ -73,11 +73,11 @@ public class HomeManager : SceneController {
 	}
 
 	public void showColliders(bool b){
-		this.header.GetComponent<HomeHeaderController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
-		this.collectionZone.GetComponent<CollectionZoneController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
-		this.officialGame.GetComponent<OfficialGameZoneController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
-		this.friendlyGame.GetComponent<FriendlyGameZoneController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
-		this.statistiques.GetComponent<StatsZoneController>().showColliders(!AppModel.instance.loadingScreen.toShowLoading);
+		this.header.GetComponent<HomeHeaderController>().showColliders(b);
+		this.collectionZone.GetComponent<CollectionZoneController>().showColliders(b);
+		this.officialGame.GetComponent<OfficialGameZoneController>().showColliders(b);
+		this.friendlyGame.GetComponent<FriendlyGameZoneController>().showColliders(b);
+		this.statistiques.GetComponent<StatsZoneController>().showColliders(b);
 	}
 
 	public void resize(){
@@ -105,10 +105,21 @@ public class HomeManager : SceneController {
 	}
 
 	public void jouerOfficiel(){
-
+		AppModel.instance.isFriendly = false;
+		AppModel.instance.launchGame();
 	}
 
 	public void jouerAmicalOfficiel(){
+		AppModel.instance.isFriendly = true;
+		if(AppModel.instance.isOnline){
+			AppModel.instance.launchGame();
+		}
+		else{
+			this.launchPregame();
+		}
+	}
 
+	public void launchPregame(){
+		SceneManager.LoadScene("Pregame");
 	}
 }

@@ -47,6 +47,7 @@ public class OfficialGameZoneController:MonoBehaviour
 			gameObject.transform.localPosition = new Vector3((0.33f*((10f*w/h))),2.25f,0f);
 			gameObject.transform.Find("Background").localScale = new Vector3((1*(1080f*0.32f*w/h)),290f,0f);
 			gameObject.transform.Find("TitleZone").localPosition = new Vector3(0f, 1.05f, 0f);
+			gameObject.transform.Find("TitleZone").GetComponent<RectTransform>().sizeDelta = new Vector2(1f*((3f*w)/h), 0.5f);
 			gameObject.transform.Find("Maintien").localPosition = new Vector3(-1*((1.6f*w)/h)+1.9f, -0.7f, 0f);
 			gameObject.transform.Find("Montee").localPosition = new Vector3(-1*((1.6f*w)/h)+1.9f, -1.1f, 0f);
 			gameObject.transform.Find("DivisionIcon").localPosition = new Vector3(1*((10f*w)/h)/9f, 0.7f, 0f);

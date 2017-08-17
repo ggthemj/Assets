@@ -6,13 +6,8 @@ using System.Collections.Generic;
 
 public class CollectionZoneController:MonoBehaviour
 {
-	public Sprite[] backgroundCards;
-	public Sprite[] characters;
-
 	void Start(){
-		this.resize();
-		this.initTexts();
-		this.updateCards(0);
+
 	}
 
 	public void initTexts(){
@@ -30,7 +25,7 @@ public class CollectionZoneController:MonoBehaviour
 	}
 
 	public void showDesktopColliders(bool b){
-		for(int i = 0 ; i < 12 ; i++){
+		for(int i = 0 ; i < AppModel.instance.userData.cards.Count ; i++){
 			gameObject.transform.Find("Card"+i).GetComponent<BoxCollider2D>().enabled = b;
 		}
 	}
@@ -46,22 +41,22 @@ public class CollectionZoneController:MonoBehaviour
 	public void updateCards(int page){
 		for(int i = 0 ; i < 12 ; i++){
 			if(AppModel.instance.userData.cards[page*12+i].getLevel()>=20){
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[4];
+				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = AppModel.instance.getCardBackground(4);
 			}
 			else if(AppModel.instance.userData.cards[page*12+i].getLevel()>=15){
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[3];
+				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = AppModel.instance.getCardBackground(3);
 			}
 			else if(AppModel.instance.userData.cards[page*12+i].getLevel()>=10){
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[2];
+				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = AppModel.instance.getCardBackground(2);
 			}
 			else if(AppModel.instance.userData.cards[page*12+i].getLevel()>=5){
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[1];
+				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = AppModel.instance.getCardBackground(1);
 			}
 			else{
-				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = this.backgroundCards[0];
+				gameObject.transform.Find("Card"+i).GetComponent<SpriteRenderer>().sprite = AppModel.instance.getCardBackground(0);
 			}
 			gameObject.transform.Find("Card"+i).FindChild("CaracBackground").GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.Find("Card"+i).FindChild("Unit").GetComponent<SpriteRenderer>().sprite = this.characters[page*12+i];
+			gameObject.transform.Find("Card"+i).FindChild("Unit").GetComponent<SpriteRenderer>().sprite = AppModel.instance.getCharacter(page*12+i);
 
 			if(AppModel.instance.userData.cards[page*12+i].skill1>0){
 				gameObject.transform.Find("Card"+i).FindChild("LifeValue").GetComponent<TextMeshPro>().text = AppModel.instance.getLifeCard(page*12+i,AppModel.instance.userData.cards[page*12+i].life).ToString();
@@ -126,8 +121,9 @@ public class CollectionZoneController:MonoBehaviour
 		if(AppModel.instance.widthScreen>AppModel.instance.heightScreen){
 			gameObject.transform.localPosition = new Vector3((-1*((10f*w/h)/6f)),-0.60f,0f);
 			gameObject.transform.Find("Background").localScale = new Vector3((1*(1080f*0.65f*w/h)),910f,0f);
-			gameObject.transform.Find("TitleZone").localPosition = new Vector3((-1*0.30f*10f*w)/h+2.5f,3.95f,0f);
-			gameObject.transform.Find("Comment").localPosition = new Vector3((-1*0.30f*10f*w)/h+4f,3.60f,0f);
+			gameObject.transform.Find("TitleZone").localPosition = new Vector3((-1*0.31f*10f*w)/h+2.5f,3.95f,0f);
+
+			gameObject.transform.Find("Comment").localPosition = new Vector3((-1*0.31f*10f*w)/h+4f,3.60f,0f);
 
 			gameObject.transform.Find("Card0").localPosition = new Vector3(-1*((0.025f+0.05f)*10f*w)/h,2.3f,0f);
 			gameObject.transform.Find("Card1").localPosition = new Vector3(-1*((0.025f+0.05f+0.15f)*10f*w)/h,2.3f,0f);
