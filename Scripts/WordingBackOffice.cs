@@ -102,7 +102,19 @@ public class WordingBackOffice
 		texts.Add(new String[]{"loss","loss"});
 		texts.Add(new String[]{"Nous n'avons pas pu vous connecter au serveur, veuillez vous reconnecter","We were not able to connect to the server, please try to reconnect"});
 		texts.Add(new String[]{"Préparation du combat","Fight preparation"});
-		texts.Add(new String[]{"Vos points de manoeuvre vous permettent de modifier l'équipe aléatoirement composée ou de changer l'ordre des unités. Le joueur ayant conservé le plus de points de manoeuvre à l'issue de cette phase sera le premier à jouer pendant le combat","You can use your techtical points to modify your randomly generated team or to change its units order. The player with the most techtical points left at the end of this phase will start the fight"});
+		texts.Add(new String[]{"Vos points de manoeuvre vous permettent de choisir vos unités avant un combat, de changer leur ordre ou leur place sur le champ de bataille. Le joueur ayant conservé le plus de points de manoeuvre à l'issue de cette phase sera le premier à jouer pendant le combat","You can use your techtical points to modify your randomly generated team or to change its units order. The player with the most techtical points left at the end of this phase will start the fight"});
+		texts.Add(new String[]{"1er à jouer","1st to play"});
+		texts.Add(new String[]{"2ème à jouer","2nd to play"});
+		texts.Add(new String[]{"3ème à jouer","3rd to play"});
+		texts.Add(new String[]{"4ème à jouer","4th to play"});
+		texts.Add(new String[]{"PM","TP"});
+		texts.Add(new String[]{"points de manoeuvre","techtical points"});
+		texts.Add(new String[]{"point de manoeuvre","techtical point"});
+		texts.Add(new String[]{"Manoeuvre impossible","Action is not allowed"});
+		texts.Add(new String[]{"Vous n'avez plus assez de points de manoeuvre pour effectuer cette action","You do not have enough techtical points to do this action"});
+		texts.Add(new String[]{"Commencer","Start"});
+		texts.Add(new String[]{"VS","VS"});
+
 
 		errors = new List<string[]>();
 		//0

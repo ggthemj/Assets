@@ -36,6 +36,9 @@ public class AppModel : MonoBehaviour
 	public Sprite[] backgroundCards;
 	public Sprite[] characters;
 
+	public int[] myTeam; 
+	public int techticalPoints;
+
 	void Awake(){
 		instance = this;
 		this.isOnline = true;
@@ -43,6 +46,8 @@ public class AppModel : MonoBehaviour
 		this.status = 0;
 		this.popUpStatus = 0;
 		this.popUpStatusNo = 0;
+		this.myTeam = new int[4];
+		this.techticalPoints = 0;
 		this.loadingScreen = GameObject.Find("LoadingScreen").GetComponent<LoadingScreen>();
 		this.bigCard = GameObject.Find("CardModification").GetComponent<BigCardController>();
 		this.bigCard.initTexts();
@@ -240,6 +245,10 @@ public class AppModel : MonoBehaviour
 		}
 		else if(this.popUpStatus==5){
 			HomeManager.instance.showColliders(true);
+			this.popUp.show(false);
+		}
+		else if(this.popUpStatus==6){
+			PregameManager.instance.showColliders(true);
 			this.popUp.show(false);
 		}
 	}
@@ -518,5 +527,12 @@ public class AppModel : MonoBehaviour
 				HomeManager.instance.launchPregame();
 			}
 		});
+	}
+
+	public void noPM(){
+		this.popUpStatus = 6;
+		PregameManager.instance.showColliders(false);
+		this.popUp.launch(false, AppModel.instance.getWording(83), AppModel.instance.getWording(84), AppModel.instance.getWording(32), "");
+		this.popUp.show(true);
 	}
 }

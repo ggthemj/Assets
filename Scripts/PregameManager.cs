@@ -12,13 +12,12 @@ public class PregameManager : SceneController {
 	public int displayedPm;
 	GameObject team;
 	List<int> unites;
-	bool toLaunchTimer;
 	float timeMalus = 1f;
 	float timerMalus ;
 	bool toDisplayMalusTimer;
 	bool[] toRotateCard;
 	float[] timerRotation;
-	float timeRotation = 1f;
+	float timeRotation = 0.8f;
 
 	// Use this for initialization
 	void Awake () {
@@ -49,7 +48,6 @@ public class PregameManager : SceneController {
 		}
 		this.team.GetComponent<TeamZoneController>().displayTimer(this.displayedPm.ToString());
 		AppModel.instance.loadingScreen.hideLoading();
-		this.toLaunchTimer = true;
 	}
 	
 	// Update is called once per frame
@@ -78,6 +76,9 @@ public class PregameManager : SceneController {
 					this.toRotateCard[i]=false;
 					this.team.GetComponent<TeamZoneController>().setCardPosition(i, 1f);
 					this.team.GetComponent<TeamZoneController>().showSwitch(i,true);
+					if (i > 0) {
+						this.team.GetComponent<TeamZoneController> ().showForward (i, true);
+					}
 				}
 				else{
 					this.team.GetComponent<TeamZoneController>().setCardPosition(i, 1f*this.timerRotation[i]/this.timeRotation);
@@ -112,9 +113,57 @@ public class PregameManager : SceneController {
 		this.team.GetComponent<TeamZoneController>().toChangeCard[id]=true;
 		this.unites[id]=AppModel.instance.userData.getRandomUnitLeft(this.unites);
 		this.team.GetComponent<TeamZoneController>().showSwitch(id,false);
+		this.displayedPm -= 5;
+		this.team.GetComponent<TeamZoneController> ().setPMText (this.displayedPm.ToString ());
+		this.team.GetComponent<TeamZoneController> ().showMalusTimer (true);
+		if (this.displayedPm == 1) {
+			this.team.GetComponent<TeamZoneController> ().changePMTitle ();
+		}
+		if (this.displayedPm < 5) {
+			this.team.GetComponent<TeamZoneController> ().disableSwitchs ();
+		}
+		if (this.displayedPm < 2) {
+			this.team.GetComponent<TeamZoneController> ().disableForwards ();
+		}
+		this.team.GetComponent<TeamZoneController> ().setMalusText ("-5 " + AppModel.instance.getWording (80));
+		this.timerMalus = 0f;
+		this.toDisplayMalusTimer = true;
 	}
 
 	public void hitForward(int id){
+		this.toRotateCard[id]=true;
+		this.toRotateCard[id-1]=true;
+		this.timerRotation[id]=0f;
+		this.timerRotation[id-1]=0f;
+		this.team.GetComponent<TeamZoneController>().toChangeCard[id]=true;
+		this.team.GetComponent<TeamZoneController>().toChangeCard[id-1]=true;
+		int temp = this.unites [id];
+		this.unites [id] = this.unites [id - 1];
+		this.unites [id-1] = temp;
+		this.team.GetComponent<TeamZoneController>().showSwitch(id,false);
+		this.team.GetComponent<TeamZoneController>().showForward(id,false);
+		this.team.GetComponent<TeamZoneController>().showSwitch(id-1,false);
+		this.team.GetComponent<TeamZoneController> ().showMalusTimer (true);
+		if (id > 1) {
+			this.team.GetComponent<TeamZoneController>().showForward(id-1,false);
+		}
+		this.displayedPm -= 2;
+		this.team.GetComponent<TeamZoneController> ().setPMText (this.displayedPm.ToString ());
+		if (this.displayedPm == 1) {
+			this.team.GetComponent<TeamZoneController> ().changePMTitle ();
+		}
+		if (this.displayedPm < 5) {
+			this.team.GetComponent<TeamZoneController> ().disableSwitchs ();
+		}
+		if (this.displayedPm < 2) {
+			this.team.GetComponent<TeamZoneController> ().disableForwards ();
+		}
+		this.team.GetComponent<TeamZoneController> ().setMalusText ("-2 " + AppModel.instance.getWording (80));
+		this.timerMalus = 0f;
+		this.toDisplayMalusTimer = true;
+	}
 
+	public void launchGame(){
+		SceneManager.LoadScene ("Game");
 	}
 }

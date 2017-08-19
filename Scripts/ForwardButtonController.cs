@@ -4,21 +4,43 @@ using UnityEngine;
 public class ForwardButtonController : ButtonController
 {
 	public int id;
+	public bool disabled;
 
 	void Start(){
 		this.setSprite();
+		this.disabled = false;
 	}
 
 	public override void OnMouseOver(){
-		gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f, 150f/255f, 189f/255f, 1f);
+		if (this.disabled) {
+			gameObject.GetComponent<SpriteRenderer> ().color = new Color (231f / 255f, 0f / 255f, 66f / 255f, 1f);
+		} 
+		else {
+			gameObject.GetComponent<SpriteRenderer> ().color = new Color (71f / 255f, 150f / 255f, 189f / 255f, 1f);
+		}
 	}
 
 	public override void OnMouseExit(){
-		gameObject.GetComponent<SpriteRenderer>().color = new Color(255f/255f, 255f/255f, 255f/255f, 1f);
+		if (this.disabled) {
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(150f/255f, 150f/255f, 150f/255f, 1f);
+		} 
+		else {
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(255f/255f, 255f/255f, 255f/255f, 1f);
+		}
 	}
 
 	public override void OnMouseDown(){
-		PregameManager.instance.hitForward(this.id);
+		if (this.disabled) {
+			AppModel.instance.noPM ();
+		} 
+		else {
+			PregameManager.instance.hitForward (this.id);
+		}
+	}
+
+	public void disable(){
+		this.disabled = true;
+		gameObject.GetComponent<SpriteRenderer>().color = new Color(150f/255f, 150f/255f, 150f/255f, 1f);
 	}
 
 	public void setSprite(){

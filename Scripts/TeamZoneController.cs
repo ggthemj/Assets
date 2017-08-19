@@ -24,6 +24,7 @@ public class TeamZoneController:MonoBehaviour
 		this.showBack(1);
 		this.showBack(2);
 		this.showBack(3);
+		this.showMalus (false);
 	}
 
 	public void showBack(int i){
@@ -33,22 +34,32 @@ public class TeamZoneController:MonoBehaviour
 	public void initTexts(){
 		gameObject.transform.Find("TitleZone").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(74);
 		gameObject.transform.Find("Comment").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(75);
+		gameObject.transform.Find("Texte0").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(76);
+		gameObject.transform.Find("Texte1").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(77);
+		gameObject.transform.Find("Texte2").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(78);
+		gameObject.transform.Find("Texte3").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(79);
+		gameObject.transform.Find("PMTitle").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(81);
+		gameObject.transform.Find("Jouer").GetComponent<CommencerButtonController>().setText(AppModel.instance.getWording(85));
 	}
 
 	public void displayTimer(string s){
 		gameObject.transform.Find("PointsManoeuvre").GetComponent<TextMeshPro>().text = s;
 	}
 
+	public void changePMTitle(){
+		gameObject.transform.Find("PMTitle").GetComponent<TextMeshPro>().text = AppModel.instance.getWording(82);
+	}
+
 	public void showMalusTimer(bool b){
 		gameObject.transform.Find("Malus").GetComponent<MeshRenderer>().enabled = b;
 		if(!b){
-			gameObject.transform.Find("Malus").transform.localPosition = new Vector3(0.5f, 4.2f, 0f);
+			gameObject.transform.Find("Malus").transform.localPosition = new Vector3(0.7f, 4f, 0f);
 		}
 	}
 
 	public void setMalusTimerPosition(float pourcentage){
-		gameObject.transform.Find("Malus").transform.localPosition = new Vector3(Mathf.Min(2.5f, 0.5f+2*pourcentage), 4.2f, 0f);
-		gameObject.transform.Find("Malus").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, pourcentage*255f);
+		gameObject.transform.Find("Malus").transform.localPosition = new Vector3(Mathf.Min(2.7f, 0.7f+1*pourcentage), 4f, 0f);
+		gameObject.transform.Find("Malus").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1-pourcentage);
 	}
 
 	public void setCardPosition(int id, float pourcentage){
@@ -80,7 +91,10 @@ public class TeamZoneController:MonoBehaviour
 
 	public void showDesktopColliders(bool b){
 		for(int i = 0 ; i < 4 ; i++){
-			gameObject.transform.Find("Card"+i).GetComponent<BoxCollider2D>().enabled = b;
+			gameObject.transform.Find("Change"+i).GetComponent<BoxCollider2D>().enabled = b;
+		}
+		for(int i = 1 ; i < 4 ; i++){
+			gameObject.transform.Find("Forward"+i).GetComponent<BoxCollider2D>().enabled = b;
 		}
 	}
 
@@ -171,22 +185,26 @@ public class TeamZoneController:MonoBehaviour
 		float h = AppModel.instance.heightScreen;
 		if(AppModel.instance.widthScreen>AppModel.instance.heightScreen){
 			gameObject.transform.localPosition = new Vector3(0f,0f,0f);
-			gameObject.transform.Find("Background").localScale = new Vector3(3000f,1080f,0f);
+			gameObject.transform.Find("Background").localScale = new Vector3(3000f,1080f,-1f);
 			gameObject.transform.Find("TitleZone").GetComponent<RectTransform>().sizeDelta = new Vector2((0.9f*10f*w)/h,0.5f);
 			gameObject.transform.Find("PointsManoeuvre").GetComponent<RectTransform>().sizeDelta = new Vector2((0.5f*10f*w)/h,0.5f);
-			gameObject.transform.Find("Comment").GetComponent<RectTransform>().sizeDelta = new Vector2((0.8f*10f*w)/h,1.5f);
+			gameObject.transform.Find("Comment").GetComponent<RectTransform>().sizeDelta = new Vector2((0.9f*10f*w)/h,1.5f);
 
-			gameObject.transform.Find("Card0").localPosition = new Vector3(-1*((0.36f)*10f*w)/h,1.5f,0f);
-			gameObject.transform.Find("Card1").localPosition = new Vector3(-1*((0.12f)*10f*w)/h,1.5f,0f);
-			gameObject.transform.Find("Card2").localPosition = new Vector3(1*((0.12f)*10f*w)/h,1.5f,0f);
-			gameObject.transform.Find("Card3").localPosition = new Vector3(1*((0.36f)*10f*w)/h,1.5f,0f);
-			gameObject.transform.Find("Change0").localPosition = new Vector3(-1*((0.36f)*10f*w)/h,-1f,0f);
-			gameObject.transform.Find("Change1").localPosition = new Vector3(-1*((0.08f)*10f*w)/h,-1f,0f);
-			gameObject.transform.Find("Change2").localPosition = new Vector3(1*((0.16f)*10f*w)/h,-1f,0f);
-			gameObject.transform.Find("Change3").localPosition = new Vector3(1*((0.40f)*10f*w)/h,-1f,0f);
-			gameObject.transform.Find("Forward1").localPosition = new Vector3(-1*((0.16f)*10f*w)/h,-1f,0f);
-			gameObject.transform.Find("Forward2").localPosition = new Vector3(1*((0.08f)*10f*w)/h,-1f,0f);
-			gameObject.transform.Find("Forward3").localPosition = new Vector3(1*((0.32f)*10f*w)/h,-1f,0f);
+			gameObject.transform.Find("Card0").localPosition = new Vector3(-1*((0.36f)*10f*w)/h,0.2f,0f);
+			gameObject.transform.Find("Card1").localPosition = new Vector3(-1*((0.12f)*10f*w)/h,0.2f,0f);
+			gameObject.transform.Find("Card2").localPosition = new Vector3(1*((0.12f)*10f*w)/h,0.2f,0f);
+			gameObject.transform.Find("Card3").localPosition = new Vector3(1*((0.36f)*10f*w)/h,0.2f,0f);
+			gameObject.transform.Find("Texte0").localPosition = new Vector3(-1*((0.36f)*10f*w)/h,2.2f,0f);
+			gameObject.transform.Find("Texte1").localPosition = new Vector3(-1*((0.12f)*10f*w)/h,2.2f,0f);
+			gameObject.transform.Find("Texte2").localPosition = new Vector3(1*((0.12f)*10f*w)/h,2.2f,0f);
+			gameObject.transform.Find("Texte3").localPosition = new Vector3(1*((0.36f)*10f*w)/h,2.2f,0f);
+			gameObject.transform.Find("Change0").localPosition = new Vector3(-1*((0.36f)*10f*w)/h,-2f,0f);
+			gameObject.transform.Find("Change1").localPosition = new Vector3(-1*((0.08f)*10f*w)/h,-2f,0f);
+			gameObject.transform.Find("Change2").localPosition = new Vector3(1*((0.16f)*10f*w)/h,-2f,0f);
+			gameObject.transform.Find("Change3").localPosition = new Vector3(1*((0.40f)*10f*w)/h,-2f,0f);
+			gameObject.transform.Find("Forward1").localPosition = new Vector3(-1*((0.16f)*10f*w)/h,-2f,0f);
+			gameObject.transform.Find("Forward2").localPosition = new Vector3(1*((0.08f)*10f*w)/h,-2f,0f);
+			gameObject.transform.Find("Forward3").localPosition = new Vector3(1*((0.32f)*10f*w)/h,-2f,0f);
 		}
 	}
 
@@ -195,6 +213,31 @@ public class TeamZoneController:MonoBehaviour
 	}
 
 	public void showForward(int i, bool b){
-		gameObject.transform.Find("Forward"+i).GetComponent<SwitchButtonController>().show(b);
+		gameObject.transform.Find("Forward"+i).GetComponent<ForwardButtonController>().show(b);
+	}
+
+	public void showMalus(bool b){
+		gameObject.transform.Find("Malus").GetComponent<MeshRenderer>().enabled=b;
+	}
+
+	public void setMalusText(string s){
+		gameObject.transform.Find("Malus").GetComponent<TextMeshPro>().text=s;
+	}
+
+	public void setPMText(string s){
+		gameObject.transform.Find("PointsManoeuvre").GetComponent<TextMeshPro>().text=s;
+	}
+
+	public void disableSwitchs(){
+		gameObject.transform.Find("Change0").GetComponent<SwitchButtonController>().disable();
+		gameObject.transform.Find("Change1").GetComponent<SwitchButtonController>().disable();
+		gameObject.transform.Find("Change2").GetComponent<SwitchButtonController>().disable();
+		gameObject.transform.Find("Change3").GetComponent<SwitchButtonController>().disable();
+	}
+
+	public void disableForwards(){
+		gameObject.transform.Find("Forward1").GetComponent<ForwardButtonController>().disable();
+		gameObject.transform.Find("Forward2").GetComponent<ForwardButtonController>().disable();
+		gameObject.transform.Find("Forward3").GetComponent<ForwardButtonController>().disable();
 	}
 }
